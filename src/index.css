@@ -1,10 +1,13 @@
-@tailwind base;
+@import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
-@tailwind components;
-@tailwind utilities;
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
 
 :root {
   --background: oklch(1 0 0);
