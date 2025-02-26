@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write --ignore-path .gitignore .",
+    "prepare": "husky"
   },
   "dependencies": {
     "react": "^19.0.0",
@@ -23,6 +25,10 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "prettier": "3.5.2",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.20.0",
     "vite": "^6.0.11",
@@ -33,5 +39,9 @@
   "overrides": {
     "sharp": "0.32.6",
     "sharp-ico": "0.1.5"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{ts,tsx,json,js,css,md}": "prettier --write"
   }
 }
