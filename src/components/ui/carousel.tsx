@@ -41,7 +41,7 @@ function useCarousel() {
 }
 
 function Carousel({
-  orientation = 'horizontal',
+  orientation,
   opts,
   setApi,
   plugins,
@@ -98,7 +98,7 @@ function Carousel({
     api.on('select', onSelect)
 
     return () => {
-      api?.off('select', onSelect)
+      api.off('select', onSelect)
     }
   }, [api, onSelect])
 
