@@ -6,7 +6,7 @@ import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config({
-  ignores: ['dist', 'pwa-assets.config.ts'],
+  ignores: ['dist', 'pwa-assets.config.ts', 'tailwind.config.ts'],
   settings: { react: { version: '19.0.0' } },
   extends: [js.configs.recommended, ...tseslint.configs.strictTypeChecked],
   files: ['**/*.{ts,tsx}'],
