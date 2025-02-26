@@ -26,6 +26,8 @@ export default defineConfig({
         description: 'Life counter for MTG',
         start_url: '/',
         orientation: 'portrait',
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
         icons: [
           {
             src: '/web-app-manifest-192x192.png',
