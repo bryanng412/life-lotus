@@ -1,5 +1,11 @@
+import WakeLock from './components/WakeLock'
+
 function App() {
-  return <div></div>
+  return (
+    <>
+      <WakeLock />
+    </>
+  )
 }
 
 export default App

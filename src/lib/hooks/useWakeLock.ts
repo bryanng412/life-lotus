@@ -20,7 +20,7 @@ const recoverableError = (error: string) => {
   console.warn(`[react-use-wake-lock]: ${error}`)
 }
 
-export default function useWakeLock(options?: Options): UseWakeLockResult {
+export const useWakeLock = (options?: Options): UseWakeLockResult => {
   const isVisible = useVisibilityObserver()
   const [isLocked, setIsLocked] = useState(false)
 

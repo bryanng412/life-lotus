@@ -1,7 +1,7 @@
 import { act } from 'react'
 import { vi } from 'vitest'
 import { renderHook } from 'vitest-browser-react'
-import useWakeLock from '../useWakeLock'
+import { useWakeLock } from '../useWakeLock'
 
 const useVisibilityObserverMockFn = vi.fn()
 vi.doMock('../useVisibilityObserver', () => {
