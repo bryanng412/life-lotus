@@ -7,6 +7,7 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
+import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 
 const CarouselSelector = ({
@@ -23,6 +24,7 @@ const CarouselSelector = ({
   loop?: boolean
 }) => {
   const [api, setApi] = useState<CarouselApi>()
+  const [hasSetIntialValue, setHasSetInitialValue] = useState(false)
 
   useEffect(() => {
     if (!api) {
@@ -41,6 +43,7 @@ const CarouselSelector = ({
     }
 
     api.scrollTo(startIndex, true)
+    setHasSetInitialValue(true)
   }, [api, startIndex])
 
   return (
@@ -54,7 +57,12 @@ const CarouselSelector = ({
       className="w-full max-w-xs"
       setApi={setApi}
     >
-      <CarouselContent className="-mt-1 h-[200px] duration-300 ease-in-out">
+      <CarouselContent
+        className={cn(
+          '-mt-1 h-[200px]',
+          hasSetIntialValue && 'duration-300 ease-in-out'
+        )}
+      >
         {slides.map((slide, index) => (
           <CarouselItem
             key={index}
