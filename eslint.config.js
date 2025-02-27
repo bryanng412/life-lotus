@@ -35,5 +35,11 @@ export default tseslint.config({
     ...react.configs['jsx-runtime'].rules,
     ...vitest.configs.recommended.rules,
     'vitest/max-nested-describe': ['error', { max: 3 }],
+    '@typescript-eslint/no-confusing-void-expression': [
+      'error',
+      {
+        ignoreArrowShorthand: true,
+      },
+    ],
   },
 })
