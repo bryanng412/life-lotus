@@ -35,12 +35,19 @@ const CarouselSelector = ({
     })
   }, [api, onSelect, slides])
 
+  useEffect(() => {
+    if (!api) {
+      return
+    }
+
+    api.scrollTo(startIndex, true)
+  }, [api, startIndex])
+
   return (
     <Carousel
       opts={{
         align: 'start',
         loop,
-        startIndex: startIndex === -1 ? 0 : startIndex,
         dragFree: false,
       }}
       orientation="vertical"
