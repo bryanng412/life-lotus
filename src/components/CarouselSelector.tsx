@@ -7,7 +7,6 @@ import {
   type CarouselApi,
 } from '@/components/ui/carousel'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
-import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 
 const CarouselSelector = ({
@@ -24,7 +23,7 @@ const CarouselSelector = ({
   loop?: boolean
 }) => {
   const [api, setApi] = useState<CarouselApi>()
-  const [hasSetIntialValue, setHasSetInitialValue] = useState(false)
+  const [hasCarouselMounted, setHasCarouselMounted] = useState(false)
 
   useEffect(() => {
     if (!api) {
@@ -35,16 +34,17 @@ const CarouselSelector = ({
       const slideIndex = api.selectedScrollSnap()
       onSelect(slides[slideIndex] as NumPlayers & StartingLife)
     })
-  }, [api, onSelect, slides])
+
+    api.on('init', () => {
+      setHasCarouselMounted(true)
+    })
+  }, [api, onSelect, slides, startIndex])
 
   useEffect(() => {
-    if (!api) {
-      return
+    if (hasCarouselMounted && api) {
+      api.scrollTo(startIndex, true)
     }
-
-    api.scrollTo(startIndex, true)
-    setHasSetInitialValue(true)
-  }, [api, startIndex])
+  }, [api, startIndex, hasCarouselMounted])
 
   return (
     <Carousel
@@ -57,12 +57,7 @@ const CarouselSelector = ({
       className="w-full max-w-xs"
       setApi={setApi}
     >
-      <CarouselContent
-        className={cn(
-          '-mt-1 h-[200px]',
-          hasSetIntialValue && 'duration-300 ease-in-out'
-        )}
-      >
+      <CarouselContent className="-mt-1 h-[200px]">
         {slides.map((slide, index) => (
           <CarouselItem
             key={index}
