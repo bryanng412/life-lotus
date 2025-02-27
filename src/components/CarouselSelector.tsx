@@ -23,7 +23,6 @@ const CarouselSelector = ({
   loop?: boolean
 }) => {
   const [api, setApi] = useState<CarouselApi>()
-  const [hasCarouselMounted, setHasCarouselMounted] = useState(false)
 
   useEffect(() => {
     if (!api) {
@@ -34,24 +33,14 @@ const CarouselSelector = ({
       const slideIndex = api.selectedScrollSnap()
       onSelect(slides[slideIndex] as NumPlayers & StartingLife)
     })
-
-    api.on('init', () => {
-      setHasCarouselMounted(true)
-    })
-  }, [api, onSelect, slides, startIndex])
-
-  useEffect(() => {
-    if (hasCarouselMounted && api) {
-      api.scrollTo(startIndex, true)
-    }
-  }, [api, startIndex, hasCarouselMounted])
+  }, [api, onSelect, slides])
 
   return (
     <Carousel
       opts={{
         align: 'start',
+        startIndex,
         loop,
-        dragFree: false,
       }}
       orientation="vertical"
       className="w-full max-w-xs"

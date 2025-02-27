@@ -2,6 +2,7 @@ import logo from '@/assets/logo.webp'
 import CarouselSelector from '@/components/CarouselSelector'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
+import { useState } from 'react'
 
 const NumPlayersOptions: NumPlayers[] = [6, 5, 4, 3, 2]
 const StartingLifeOptions: StartingLife[] = [40, 30, 20]
@@ -10,8 +11,10 @@ const GameSetup = () => {
   const { startingLife, numPlayers, setStartingLife, setNumPlayers } =
     useBoundStore()
 
-  const startingNumPlayersIndex = NumPlayersOptions.indexOf(numPlayers)
-  const startingLifeIndex = StartingLifeOptions.indexOf(startingLife)
+  const numPlayersIndex = NumPlayersOptions.indexOf(numPlayers)
+  const lifeIndex = StartingLifeOptions.indexOf(startingLife)
+  const [initNumPlayersIndex] = useState(numPlayersIndex)
+  const [initLifeIndex] = useState(lifeIndex)
 
   return (
     <div className="flex h-screen w-screen flex-col items-center bg-zinc-400 pt-[5vh]">
@@ -24,13 +27,13 @@ const GameSetup = () => {
         <CarouselSelector
           slides={NumPlayersOptions}
           onSelect={setNumPlayers}
-          startIndex={startingNumPlayersIndex}
+          startIndex={initNumPlayersIndex}
           label="Players"
         />
         <CarouselSelector
           slides={StartingLifeOptions}
           onSelect={setStartingLife}
-          startIndex={startingLifeIndex}
+          startIndex={initLifeIndex}
           label="Starting Life"
         />
       </div>
