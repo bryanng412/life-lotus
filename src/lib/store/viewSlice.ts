@@ -4,6 +4,7 @@ import { BoundState } from './boundStore'
 export enum View {
   GameSetup = 'GameSetup',
   LifeCounter = 'LifeCounter',
+  ChoosePlayer = 'ChoosePlayer',
 }
 
 export type ViewSlice = {
