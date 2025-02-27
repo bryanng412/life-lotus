@@ -28,7 +28,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: false,
+      injectRegister: 'script',
 
       pwaAssets: {
         disabled: false,
@@ -40,7 +40,9 @@ export default defineConfig({
         short_name: 'Jeweled Lotus',
         description: 'Life counter for MTG',
         start_url: '/',
+        scope: '/',
         orientation: 'portrait',
+        display: 'standalone',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         icons: [
@@ -57,13 +59,13 @@ export default defineConfig({
             purpose: 'maskable',
           },
         ],
-        display: 'standalone',
       },
 
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
+        skipWaiting: true,
       },
 
       devOptions: {
