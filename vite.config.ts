@@ -43,8 +43,8 @@ export default defineConfig({
         scope: '/',
         orientation: 'portrait',
         display: 'standalone',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
+        theme_color: '#000000',
+        background_color: '#000000',
         icons: [
           {
             src: '/web-app-manifest-192x192.png',

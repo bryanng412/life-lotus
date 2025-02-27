@@ -17,13 +17,13 @@ const GameSetup = () => {
   const [initLifeIndex] = useState(lifeIndex)
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center bg-zinc-400 pt-[5vh]">
+    <div className="flex h-screen w-screen flex-col items-center gap-20 bg-zinc-400 pt-[5vh]">
       <img
         src={logo}
         alt="logo"
-        className="l-[150px] md:l-[225px] lg:l-[250px] mb-2 w-[150px] md:w-[225px] lg:w-[250px]"
+        className="l-[150px] md:l-[225px] lg:l-[250px] w-[150px] md:w-[225px] lg:w-[250px]"
       />
-      <div className="mt-16 flex w-[100%] items-center justify-center gap-4">
+      <div className="flex w-[100%] items-center justify-center gap-4">
         <CarouselSelector
           slides={NumPlayersOptions}
           onSelect={setNumPlayers}
