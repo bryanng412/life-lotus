@@ -1,4 +1,5 @@
 import js from '@eslint/js'
+import vitest from '@vitest/eslint-plugin'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
@@ -22,6 +23,7 @@ export default tseslint.config({
     react,
     'react-hooks': reactHooks,
     'react-refresh': reactRefresh,
+    vitest,
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
@@ -31,5 +33,7 @@ export default tseslint.config({
     ],
     ...react.configs.recommended.rules,
     ...react.configs['jsx-runtime'].rules,
+    ...vitest.configs.recommended.rules,
+    'vitest/max-nested-describe': ['error', { max: 3 }],
   },
 })
