@@ -41,5 +41,6 @@ export default tseslint.config({
         ignoreArrowShorthand: true,
       },
     ],
+    '@typescript-eslint/restrict-template-expressions': 'off',
   },
 })

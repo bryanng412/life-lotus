@@ -1,8 +1,8 @@
 import { StateCreator } from 'zustand'
 import { BoundState } from './boundStore'
 
-type StartingLife = 20 | 30 | 40
-type NumPlayers = 2 | 3 | 4 | 5 | 6
+export type StartingLife = 20 | 30 | 40
+export type NumPlayers = 2 | 3 | 4 | 5 | 6
 
 export type GameInfoSlice = {
   startingLife: StartingLife
