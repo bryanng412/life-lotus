@@ -44,7 +44,7 @@ const CarouselSelector = ({
       className="w-full max-w-xs"
       setApi={setApi}
     >
-      <CarouselContent className="-mt-1 h-[175px]">
+      <CarouselContent className="-mt-1 h-[125px] md:h-[175px]">
         {slides.map((slide, index) => (
           <CarouselItem
             key={index}

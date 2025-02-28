@@ -19,7 +19,7 @@ const GameSetup = () => {
   const [initLifeIndex] = useState(lifeIndex)
 
   return (
-    <div className="bg-muted flex h-screen w-screen flex-col items-center gap-15 pt-[5vh] md:gap-20">
+    <div className="bg-muted flex h-screen w-screen flex-col items-center gap-18 pt-[5vh] md:gap-21">
       <img
         src={logo}
         alt="logo"
@@ -44,12 +44,15 @@ const GameSetup = () => {
         </div>
       </div>
       <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-4">
-        <Button className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90">
+        <Button
+          size="lg"
+          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90"
+        >
           Start Game
         </Button>
         <Button
           variant="outline"
-          size="icon"
+          size="lg"
           className="bg-muted-foreground [&>svg]:stroke-primary-foreground hover:bg-muted-foreground hover:opacity-90"
         >
           <Settings />
