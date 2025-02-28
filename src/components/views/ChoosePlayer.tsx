@@ -9,11 +9,18 @@ const ChoosePlayer = () => {
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
-    const eventTouches = Array.from(event.touches).filter(({ identifier }) =>
-      touchPoints.every(t => t.identifier !== identifier)
+    const sharedTouchPoints = Array.from(event.touches).filter(t =>
+      touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
-    const newTouches = [...touchPoints, ...eventTouches].slice(0, numPlayers)
-    setTouchPoints(newTouches)
+    const uniqueTouchPoints = Array.from(event.touches).filter(t =>
+      sharedTouchPoints.some(({ identifier }) => t.identifier !== identifier)
+    )
+    const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
+      0,
+      numPlayers
+    )
+
+    setTouchPoints(newTouchPoints)
   }
 
   const onBackClick = () => {
