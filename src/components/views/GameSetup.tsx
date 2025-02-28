@@ -25,14 +25,14 @@ const GameSetup = () => {
         alt="logo"
         className="l-[150px] md:l-[225px] lg:l-[250px] w-[150px] md:w-[225px] lg:w-[250px]"
       />
-      <div className="flex w-[100%] items-center justify-center gap-4">
+      <div className="flex w-[100%] items-center justify-center gap-2">
         <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-18 md:gap-20">
           <CarouselSelector
             slides={NumPlayersOptions}
             onSelect={setNumPlayers}
             startIndex={initNumPlayersIndex}
           />
-          <p className="font-medium">Players</p>
+          <p className="text-lg font-medium md:text-xl">Players</p>
         </div>
         <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-18 md:gap-20">
           <CarouselSelector
@@ -40,20 +40,20 @@ const GameSetup = () => {
             onSelect={setStartingLife}
             startIndex={initLifeIndex}
           />
-          <p className="font-medium">Starting Life</p>
+          <p className="text-lg font-medium md:text-xl">Starting Life</p>
         </div>
       </div>
       <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-4">
         <Button
-          size="lg"
-          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90"
+          size="xxl"
+          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground md:padding-20 hover:opacity-90 active:scale-[.98]"
         >
           Start Game
         </Button>
         <Button
           variant="outline"
-          size="lg"
-          className="bg-muted-foreground [&>svg]:stroke-primary-foreground hover:bg-muted-foreground hover:opacity-90"
+          size="xl"
+          className="bg-muted-foreground [&>svg]:stroke-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
         >
           <Settings />
         </Button>
