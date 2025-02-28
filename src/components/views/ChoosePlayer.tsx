@@ -54,7 +54,7 @@ const ChoosePlayer = () => {
           >
             <ArrowLeft />
           </Button>
-          <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center gap-3">
+          <div className="absolute top-1/4 left-1/2 flex -translate-x-1/2 transform flex-col items-center justify-center gap-3">
             <h1 className="text-center text-3xl font-bold">Choose a Player</h1>
             <p className="text-center">
               Each player holds a finger on the screen. After three seconds, one
