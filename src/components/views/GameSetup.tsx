@@ -3,6 +3,7 @@ import CarouselSelector from '@/components/CarouselSelector'
 import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
+import { View } from '@/lib/store/viewSlice'
 import { Settings } from 'lucide-react'
 import { useState } from 'react'
 
@@ -10,13 +11,17 @@ const NumPlayersOptions: NumPlayers[] = [6, 5, 4, 3, 2]
 const StartingLifeOptions: StartingLife[] = [40, 30, 20]
 
 const GameSetup = () => {
-  const { startingLife, numPlayers, setStartingLife, setNumPlayers } =
+  const { startingLife, numPlayers, setStartingLife, setNumPlayers, setView } =
     useBoundStore()
 
   const numPlayersIndex = NumPlayersOptions.indexOf(numPlayers)
   const lifeIndex = StartingLifeOptions.indexOf(startingLife)
   const [initNumPlayersIndex] = useState(numPlayersIndex)
   const [initLifeIndex] = useState(lifeIndex)
+
+  const startGameOnClick = () => {
+    setView(View.ChoosePlayer)
+  }
 
   return (
     <div className="bg-muted flex h-screen w-screen flex-col items-center gap-18 pt-[5vh] md:gap-21">
@@ -47,6 +52,7 @@ const GameSetup = () => {
         <Button
           size="xxl"
           className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground md:padding-20 hover:opacity-90 active:scale-[.98]"
+          onClick={startGameOnClick}
         >
           Start Game
         </Button>

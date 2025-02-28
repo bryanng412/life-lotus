@@ -9,6 +9,7 @@ export enum View {
 
 export type ViewSlice = {
   view: View
+  previousView: View | null
   setView: (v: View) => void
 }
 
@@ -19,5 +20,6 @@ export const createViewSlice: StateCreator<
   ViewSlice
 > = set => ({
   view: View.GameSetup,
-  setView: v => set({ view: v }),
+  previousView: null,
+  setView: v => set(({ view }) => ({ view: v, previousView: view })),
 })
