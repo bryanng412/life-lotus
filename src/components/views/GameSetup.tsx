@@ -57,7 +57,6 @@ const GameSetup = () => {
           Start Game
         </Button>
         <Button
-          variant="outline"
           size="xl"
           className="bg-muted-foreground [&>svg]:stroke-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
         >

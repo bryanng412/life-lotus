@@ -54,8 +54,8 @@ const CarouselSelector = ({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="bg-muted border-border" />
-      <CarouselNext className="bg-muted border-border" />
+      <CarouselPrevious className="bg-border border-muted" />
+      <CarouselNext className="bg-border border-muted" />
     </Carousel>
   )
 }

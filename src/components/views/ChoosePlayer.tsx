@@ -19,14 +19,14 @@ const ChoosePlayer = () => {
       <Button
         size="lg"
         onClick={onBackClick}
-        className="bg-primary-foreground [&>svg]:stroke-muted-foreground hover:bg-primary-foreground absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
+        className="bg-border [&>svg]:stroke-muted-foreground hover:bg-muted absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
       >
         <ArrowLeft />
       </Button>
       <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col items-center justify-center gap-3">
         <h1 className="text-center text-3xl font-bold">Choose a Player</h1>
         <p className="text-center">
-          Each player holds a finger on the screen. After 3 seconds, one is
+          Each player holds a finger on the screen. After three seconds, one is
           chosen to go first!
         </p>
         <div className="align-center flex justify-center gap-2">
