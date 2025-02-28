@@ -5,22 +5,15 @@ import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
 
 const ChoosePlayer = () => {
-  const { setView, previousView } = useBoundStore()
+  const { setView, previousView, numPlayers } = useBoundStore()
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
-  const handleTouchStart: React.TouchEventHandler = event => {
-    const touches = Array.from(event.touches)
-    setTouchPoints(touches)
-  }
-
-  const handleTouchMove: React.TouchEventHandler = event => {
-    const touches = Array.from(event.touches)
-    setTouchPoints(touches)
-  }
-
-  const handleTouchEnd: React.TouchEventHandler = event => {
-    const touches = Array.from(event.touches)
-    setTouchPoints(touches)
+  const handleTouch: React.TouchEventHandler = event => {
+    const eventTouches = Array.from(event.touches).filter(({ identifier }) =>
+      touchPoints.every(t => t.identifier !== identifier)
+    )
+    const newTouches = [...touchPoints, ...eventTouches].slice(0, numPlayers)
+    setTouchPoints(newTouches)
   }
 
   const onBackClick = () => {
@@ -34,9 +27,9 @@ const ChoosePlayer = () => {
   return (
     <div className="bg-muted relative h-screen w-screen">
       <div
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
+        onTouchStart={handleTouch}
+        onTouchMove={handleTouch}
+        onTouchEnd={handleTouch}
         className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
       <p>Active touch points</p>
