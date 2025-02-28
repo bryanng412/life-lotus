@@ -12,13 +12,11 @@ import { useEffect, useState } from 'react'
 const CarouselSelector = ({
   slides,
   onSelect,
-  // label,
   startIndex = 0,
   loop = false,
 }: {
   slides: NumPlayers[] | StartingLife[]
   onSelect: (value: NumPlayers & StartingLife) => void
-  label: string
   startIndex?: number
   loop?: boolean
 }) => {
@@ -56,8 +54,8 @@ const CarouselSelector = ({
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <CarouselPrevious className="bg-muted border-border" />
+      <CarouselNext className="bg-muted border-border" />
     </Carousel>
   )
 }
