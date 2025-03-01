@@ -1,6 +1,6 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Circle } from 'lucide-react'
 import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
 
@@ -9,6 +9,7 @@ const ChoosePlayer = () => {
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
+    event.preventDefault()
     const sharedTouchPoints = Array.from(event.touches).filter(t =>
       touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
@@ -39,6 +40,17 @@ const ChoosePlayer = () => {
         onTouchEnd={handleTouch}
         className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
+      {touchPoints.map((touch, i) => (
+        <Circle
+          key={`circle-${i}`}
+          size={64}
+          className="absolute -translate-x-[32px] -translate-y-[32px] transform"
+          style={{
+            top: `${Math.round(touch.clientY)}px`,
+            left: `${Math.round(touch.clientX)}px`,
+          }}
+        />
+      ))}
       <p>Active touch points</p>
       {touchPoints.map((touch, i) => (
         <div key={i}>
