@@ -60,7 +60,7 @@ const GameSetup = () => {
         </Button>
         <Button
           size="xl"
-          className="bg-muted-foreground [&>svg]:stroke-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
+          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
         >
           <Settings />
         </Button>

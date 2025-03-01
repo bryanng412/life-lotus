@@ -7,6 +7,8 @@ import { Button } from '../ui/button'
 
 const CIRCLE_DIAMETER = 140
 
+const MotionCircle = motion.create(Circle)
+
 const ChoosePlayer = () => {
   const { setView, previousView, numPlayers } = useBoundStore()
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
@@ -39,27 +41,31 @@ const ChoosePlayer = () => {
         <motion.div
           key={`circle-${touch.identifier}`}
           initial={{
-            scale: 0,
             x: Math.round(touch.clientX) - CIRCLE_DIAMETER / 2,
             y: Math.round(touch.clientY) - CIRCLE_DIAMETER / 2,
           }}
           transition={{ type: 'spring', duration: 0.05 }}
           animate={{
-            scale: 1,
             x: Math.round(touch.clientX),
             y: Math.round(touch.clientY),
           }}
           style={{
             position: 'absolute',
+            zIndex: 99,
           }}
         >
-          <Circle
-            size={CIRCLE_DIAMETER}
-            className={`[&>svg]:stroke-chart-${touch.identifier + 1}`}
+          <div
             style={{
               transform: `translate(-${CIRCLE_DIAMETER / 2}px, -${CIRCLE_DIAMETER / 2}px)`,
             }}
-          />
+          >
+            <MotionCircle
+              size={CIRCLE_DIAMETER}
+              className={`text-chart-${touch.identifier + 1}`}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+            />
+          </div>
         </motion.div>
       ))}
       <div
@@ -73,7 +79,7 @@ const ChoosePlayer = () => {
           <Button
             size="lg"
             onClick={onBackClick}
-            className="bg-border [&>svg]:stroke-muted-foreground hover:bg-muted absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
+            className="bg-border text-muted-foreground hover:bg-muted absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
           >
             <ArrowLeft />
           </Button>
