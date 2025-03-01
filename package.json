@@ -14,7 +14,9 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
+    "@react-spring/web": "^9.7.5",
     "@tailwindcss/vite": "^4.0.9",
+    "@use-gesture/react": "^10.3.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
@@ -24,6 +26,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-tracked": "^2.0.1",
+    "react-use-wake-lock": "^1.0.1",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.9",
     "tailwindcss-animate": "^1.0.7",
@@ -62,7 +65,14 @@
   },
   "overrides": {
     "sharp": "0.32.6",
-    "sharp-ico": "0.1.5"
+    "sharp-ico": "0.1.5",
+    "@react-spring/web": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    },
+    "react-use-wake-lock": {
+      "react": "$react"
+    }
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix",

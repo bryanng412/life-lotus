@@ -1,5 +1,5 @@
-import { useWakeLock } from '@/hooks/useWakeLock'
 import { useEffect } from 'react'
+import useWakeLock from 'react-use-wake-lock'
 
 const WakeLock = () => {
   const { isLocked, request, release } = useWakeLock()

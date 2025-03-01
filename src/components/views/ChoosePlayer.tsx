@@ -11,18 +11,6 @@ const ChoosePlayer = () => {
 
   const handleTouch: React.TouchEventHandler = event => {
     event.preventDefault()
-    // const sharedTouchPoints = Array.from(event.touches).filter(t =>
-    //   touchPoints.some(({ identifier }) => t.identifier === identifier)
-    // )
-    // const uniqueTouchPoints = Array.from(event.touches).filter(
-    //   t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
-    // )
-    // const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
-    //   0,
-    //   numPlayers
-    // )
-
-    // setTouchPoints(newTouchPoints)
     setTouchPoints(Array.from(event.touches))
   }
   const throttledHandleTouch = throttle(handleTouch, 100)
