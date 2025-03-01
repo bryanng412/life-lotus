@@ -1,6 +1,5 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
-import { throttle } from 'lodash'
 import { ArrowLeft } from 'lucide-react'
 import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
@@ -24,7 +23,6 @@ const ChoosePlayer = () => {
 
     setTouchPoints(newTouchPoints)
   }
-  const throttledHandleTouch = throttle(handleTouch, 100)
 
   const onBackClick = () => {
     if (previousView) {
@@ -37,9 +35,9 @@ const ChoosePlayer = () => {
   return (
     <div className="bg-muted relative h-screen w-screen">
       <div
-        onTouchStart={throttledHandleTouch}
-        onTouchMove={throttledHandleTouch}
-        onTouchEnd={throttledHandleTouch}
+        onTouchStart={handleTouch}
+        onTouchMove={handleTouch}
+        onTouchEnd={handleTouch}
         className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
       <p>Active touch points</p>
