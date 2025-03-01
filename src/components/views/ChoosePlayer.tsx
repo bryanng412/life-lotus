@@ -7,6 +7,15 @@ import { Button } from '../ui/button'
 
 const CIRCLE_DIAMETER = 140
 
+const CircleColors = [
+  'oklch(0.646 0.222 41.116)',
+  'oklch(0.6 0.118 184.704)',
+  'oklch(0.398 0.07 227.392)',
+  'oklch(0.828 0.189 84.429)',
+  'oklch(0.769 0.188 70.08)',
+  'oklch(0.627 0.265 303.9)',
+]
+
 const MotionCircle = motion.create(Circle)
 
 const ChoosePlayer = () => {
@@ -49,13 +58,13 @@ const ChoosePlayer = () => {
         <motion.div
           key={`circle-${touch.identifier}`}
           initial={{
-            x: Math.round(touch.clientX) - CIRCLE_DIAMETER / 2,
-            y: Math.round(touch.clientY) - CIRCLE_DIAMETER / 2,
+            x: touch.clientX - CIRCLE_DIAMETER / 2,
+            y: touch.clientY - CIRCLE_DIAMETER / 2,
           }}
           transition={{ type: 'spring', duration: 0.05 }}
           animate={{
-            x: Math.round(touch.clientX),
-            y: Math.round(touch.clientY),
+            x: touch.clientX,
+            y: touch.clientY,
           }}
           style={{
             position: 'absolute',
@@ -63,12 +72,12 @@ const ChoosePlayer = () => {
           }}
         >
           <div
-            className={`text-chart-${touch.identifier + 1}`}
             style={{
               transform: `translate(-${CIRCLE_DIAMETER / 2}px, -${CIRCLE_DIAMETER / 2}px)`,
             }}
           >
             <MotionCircle
+              color={CircleColors[touch.identifier]}
               size={CIRCLE_DIAMETER}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
