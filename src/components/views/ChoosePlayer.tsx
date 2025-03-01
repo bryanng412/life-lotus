@@ -6,25 +6,30 @@ import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
 
 const ChoosePlayer = () => {
-  const { setView, previousView, numPlayers } = useBoundStore()
+  const { setView, previousView } = useBoundStore()
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
     event.preventDefault()
-    const sharedTouchPoints = Array.from(event.touches).filter(t =>
-      touchPoints.some(({ identifier }) => t.identifier === identifier)
-    )
-    const uniqueTouchPoints = Array.from(event.touches).filter(
-      t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
-    )
-    const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
-      0,
-      numPlayers
-    )
+    // const sharedTouchPoints = Array.from(event.touches).filter(t =>
+    //   touchPoints.some(({ identifier }) => t.identifier === identifier)
+    // )
+    // const uniqueTouchPoints = Array.from(event.touches).filter(
+    //   t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
+    // )
+    // const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
+    //   0,
+    //   numPlayers
+    // )
 
-    setTouchPoints(newTouchPoints)
+    // setTouchPoints(newTouchPoints)
+    setTouchPoints(Array.from(event.touches))
   }
   const throttledHandleTouch = throttle(handleTouch, 100)
+
+  const handleTouchCancel: React.TouchEventHandler = () => {
+    setTouchPoints([])
+  }
 
   const onBackClick = () => {
     if (previousView) {
@@ -40,6 +45,7 @@ const ChoosePlayer = () => {
         onTouchStart={throttledHandleTouch}
         onTouchMove={throttledHandleTouch}
         onTouchEnd={throttledHandleTouch}
+        onTouchCancel={handleTouchCancel}
         className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
       {touchPoints.map((touch, i) => (
