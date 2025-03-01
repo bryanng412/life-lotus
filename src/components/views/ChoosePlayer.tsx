@@ -12,8 +12,8 @@ const ChoosePlayer = () => {
     const sharedTouchPoints = Array.from(event.touches).filter(t =>
       touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
-    const uniqueTouchPoints = Array.from(event.touches).filter(t =>
-      sharedTouchPoints.some(({ identifier }) => t.identifier !== identifier)
+    const uniqueTouchPoints = Array.from(event.touches).filter(
+      t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
     const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
       0,
@@ -55,15 +55,17 @@ const ChoosePlayer = () => {
             <ArrowLeft />
           </Button>
           <div className="absolute top-1/4 left-1/2 flex -translate-x-1/2 transform flex-col items-center justify-center gap-3">
-            <h1 className="text-center text-3xl font-bold">Choose a Player</h1>
-            <p className="text-center">
+            <h1 className="text-center text-3xl font-bold select-none">
+              Choose a Player
+            </h1>
+            <p className="text-center select-none">
               Each player holds a finger on the screen. After three seconds, one
               is chosen to go first!
             </p>
             <div className="align-center flex justify-center gap-2">
               <Button
                 size="lg"
-                className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
+                className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground select-none hover:opacity-90 active:scale-[.98]"
               >
                 Skip
               </Button>
