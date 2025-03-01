@@ -54,6 +54,12 @@ const ChoosePlayer = () => {
 
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
+      <div
+        onTouchStart={handleTouch}
+        onTouchMove={handleTouch}
+        onTouchEnd={handleTouch}
+        className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
+      />
       {touchPoints.map(touch => (
         <motion.div
           key={`circle-${touch.identifier}`}
@@ -85,12 +91,6 @@ const ChoosePlayer = () => {
           </div>
         </motion.div>
       ))}
-      <div
-        onTouchStart={handleTouch}
-        onTouchMove={handleTouch}
-        onTouchEnd={handleTouch}
-        className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
-      />
       {touchPoints.length === 0 && (
         <>
           <Button
