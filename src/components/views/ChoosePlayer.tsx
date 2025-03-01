@@ -12,17 +12,16 @@ const ChoosePlayer = () => {
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
-    // const sharedTouchPoints = Array.from(event.touches).filter(t =>
-    //   touchPoints.some(({ identifier }) => t.identifier === identifier)
-    // )
-    // const uniqueTouchPoints = Array.from(event.touches).filter(
-    //   t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
-    // )
-    // const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
-    //   0,
-    //   numPlayers
-    // )
-    const newTouchPoints = Array.from(event.touches).slice(0, numPlayers)
+    const sharedTouchPoints = Array.from(event.touches).filter(t =>
+      touchPoints.some(({ identifier }) => t.identifier === identifier)
+    )
+    const uniqueTouchPoints = Array.from(event.touches).filter(
+      t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
+    )
+    const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
+      0,
+      numPlayers
+    )
     setTouchPoints(newTouchPoints)
   }
 
@@ -36,15 +35,15 @@ const ChoosePlayer = () => {
 
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
-      {touchPoints.map((touch, i) => (
+      {touchPoints.map(touch => (
         <motion.div
-          key={`circle-${i}`}
+          key={`circle-${touch.identifier}`}
           initial={{
             scale: 0,
             x: Math.round(touch.clientX) - CIRCLE_DIAMETER / 2,
             y: Math.round(touch.clientY) - CIRCLE_DIAMETER / 2,
           }}
-          transition={{ type: 'spring', duration: 0.07 }}
+          transition={{ type: 'spring', duration: 0.05 }}
           animate={{
             scale: 1,
             x: Math.round(touch.clientX),
@@ -56,6 +55,7 @@ const ChoosePlayer = () => {
         >
           <Circle
             size={CIRCLE_DIAMETER}
+            className={`[&>svg]:stroke-chart-${touch.identifier + 1}`}
             style={{
               transform: `translate(-${CIRCLE_DIAMETER / 2}px, -${CIRCLE_DIAMETER / 2}px)`,
             }}
@@ -68,12 +68,6 @@ const ChoosePlayer = () => {
         onTouchEnd={handleTouch}
         className="bg-muted absolute top-0 left-0 h-screen w-screen bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
-      <p>Active touch points</p>
-      {touchPoints.map((touch, i) => (
-        <div key={i}>
-          ID: {touch.identifier}, X: {touch.clientX}, Y: {touch.clientY}
-        </div>
-      ))}
       {touchPoints.length === 0 && (
         <>
           <Button
