@@ -1,6 +1,7 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Circle } from 'lucide-react'
+import { motion } from 'motion/react'
 import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
 
@@ -9,7 +10,6 @@ const ChoosePlayer = () => {
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
-    event.preventDefault()
     const sharedTouchPoints = Array.from(event.touches).filter(t =>
       touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
@@ -20,7 +20,6 @@ const ChoosePlayer = () => {
       0,
       numPlayers
     )
-
     setTouchPoints(newTouchPoints)
   }
 
@@ -33,7 +32,28 @@ const ChoosePlayer = () => {
   }
 
   return (
-    <div className="bg-muted relative h-screen w-screen">
+    <div className="bg-muted relative h-screen w-screen overflow-hidden">
+      {touchPoints.map((touch, i) => (
+        <motion.div
+          key={`circle-${i}`}
+          initial={{
+            scale: 0,
+            x: Math.round(touch.clientX) - 40,
+            y: Math.round(touch.clientY) - 40,
+          }}
+          transition={{ type: 'spring' }}
+          animate={{
+            scale: 1,
+            x: Math.round(touch.clientX),
+            y: Math.round(touch.clientY),
+          }}
+          style={{
+            position: 'absolute',
+          }}
+        >
+          <Circle size={80} style={{ transform: 'translate(-40px, -40px)' }} />
+        </motion.div>
+      ))}
       <div
         onTouchStart={handleTouch}
         onTouchMove={handleTouch}
