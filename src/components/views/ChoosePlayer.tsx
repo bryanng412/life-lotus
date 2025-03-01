@@ -2,7 +2,7 @@ import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { ArrowLeft, Circle } from 'lucide-react'
 import { motion } from 'motion/react'
-import React, { Touch, useState } from 'react'
+import React, { Touch, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 
 const CIRCLE_DIAMETER = 140
@@ -12,8 +12,13 @@ const MotionCircle = motion.create(Circle)
 const ChoosePlayer = () => {
   const { setView, previousView, numPlayers } = useBoundStore()
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
+  const animationFrame = useRef<number | null>(null)
 
   const handleTouch: React.TouchEventHandler = event => {
+    if (animationFrame.current) {
+      cancelAnimationFrame(animationFrame.current)
+    }
+
     const sharedTouchPoints = Array.from(event.touches).filter(t =>
       touchPoints.some(({ identifier }) => t.identifier === identifier)
     )
@@ -24,7 +29,10 @@ const ChoosePlayer = () => {
       0,
       numPlayers
     )
-    setTouchPoints(newTouchPoints)
+
+    animationFrame.current = requestAnimationFrame(() => {
+      setTouchPoints(newTouchPoints)
+    })
   }
 
   const onBackClick = () => {
@@ -55,13 +63,13 @@ const ChoosePlayer = () => {
           }}
         >
           <div
+            className={`text-chart-${touch.identifier + 1}`}
             style={{
               transform: `translate(-${CIRCLE_DIAMETER / 2}px, -${CIRCLE_DIAMETER / 2}px)`,
             }}
           >
             <MotionCircle
               size={CIRCLE_DIAMETER}
-              className={`text-chart-${touch.identifier + 1}`}
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
             />
