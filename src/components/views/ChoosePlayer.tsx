@@ -5,21 +5,24 @@ import { motion } from 'motion/react'
 import React, { Touch, useState } from 'react'
 import { Button } from '../ui/button'
 
+const CIRCLE_DIAMETER = 140
+
 const ChoosePlayer = () => {
   const { setView, previousView, numPlayers } = useBoundStore()
   const [touchPoints, setTouchPoints] = useState<Touch[]>([])
 
   const handleTouch: React.TouchEventHandler = event => {
-    const sharedTouchPoints = Array.from(event.touches).filter(t =>
-      touchPoints.some(({ identifier }) => t.identifier === identifier)
-    )
-    const uniqueTouchPoints = Array.from(event.touches).filter(
-      t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
-    )
-    const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
-      0,
-      numPlayers
-    )
+    // const sharedTouchPoints = Array.from(event.touches).filter(t =>
+    //   touchPoints.some(({ identifier }) => t.identifier === identifier)
+    // )
+    // const uniqueTouchPoints = Array.from(event.touches).filter(
+    //   t => !touchPoints.some(({ identifier }) => t.identifier === identifier)
+    // )
+    // const newTouchPoints = [...sharedTouchPoints, ...uniqueTouchPoints].slice(
+    //   0,
+    //   numPlayers
+    // )
+    const newTouchPoints = Array.from(event.touches).slice(0, numPlayers)
     setTouchPoints(newTouchPoints)
   }
 
@@ -38,10 +41,10 @@ const ChoosePlayer = () => {
           key={`circle-${i}`}
           initial={{
             scale: 0,
-            x: Math.round(touch.clientX) - 40,
-            y: Math.round(touch.clientY) - 40,
+            x: Math.round(touch.clientX) - CIRCLE_DIAMETER / 2,
+            y: Math.round(touch.clientY) - CIRCLE_DIAMETER / 2,
           }}
-          transition={{ type: 'spring' }}
+          transition={{ type: 'spring', duration: 0.07 }}
           animate={{
             scale: 1,
             x: Math.round(touch.clientX),
@@ -51,7 +54,12 @@ const ChoosePlayer = () => {
             position: 'absolute',
           }}
         >
-          <Circle size={80} style={{ transform: 'translate(-40px, -40px)' }} />
+          <Circle
+            size={CIRCLE_DIAMETER}
+            style={{
+              transform: `translate(-${CIRCLE_DIAMETER / 2}px, -${CIRCLE_DIAMETER / 2}px)`,
+            }}
+          />
         </motion.div>
       ))}
       <div
