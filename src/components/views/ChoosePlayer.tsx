@@ -1,7 +1,7 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { copyTouch, ongoingTouchIndexById } from '@/lib/utils'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, Circle } from 'lucide-react'
 import { TouchEventHandler, useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 
@@ -19,63 +19,38 @@ const CircleRadius = 50
 const ChoosePlayer = () => {
   const { setView, previousView } = useBoundStore()
   const [showCopy, setShowCopy] = useState(true)
-  const touchPoints = useRef<ReturnType<typeof copyTouch>[]>([])
+  // const touchPoints = useRef<ReturnType<typeof copyTouch>[]>([])
+  const [touchPoints, setTouchPoints] = useState<
+    ReturnType<typeof copyTouch>[]
+  >([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   const handleStart: TouchEventHandler = event => {
-    console.log('here')
-    event.preventDefault()
     setShowCopy(() => false)
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
+    // if (!canvasRef.current) return
+    // const canvas = canvasRef.current
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    // const ctx = canvas.getContext('2d')
+    // if (!ctx) return
 
     const touches = event.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      touchPoints.current.push(copyTouch(touches[i]))
-      ctx.beginPath()
-      ctx.arc(
-        touches[i].pageX,
-        touches[i].pageY,
-        CircleRadius,
-        0,
-        2 * Math.PI,
-        false
-      )
-      ctx.fillStyle = CircleColors[touches[i].identifier]
-      ctx.fill()
-    }
+    // for (let i = 0; i < touches.length; i++) {
+    //   touchPoints.current.push(copyTouch(touches[i]))
+    // }
+    setTouchPoints(Array.from(touches).map(copyTouch))
   }
 
   const handleMove: TouchEventHandler = event => {
-    event.preventDefault()
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(
-        touchPoints.current,
-        touches[i].identifier
-      )
+      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
 
       if (index >= 0) {
-        ctx.beginPath()
-        ctx.moveTo(
-          touchPoints.current[index].pageX,
-          touchPoints.current[index].pageY
-        )
-        ctx.lineTo(touches[i].pageX, touches[i].pageY)
-        ctx.lineWidth = 4
-        ctx.strokeStyle = CircleColors[touches[i].identifier]
-        ctx.stroke()
-
-        touchPoints.current.splice(index, 1, copyTouch(touches[i]))
+        setTouchPoints(oldTouchPoints => {
+          const oldTouchPointsCopy = oldTouchPoints.slice()
+          oldTouchPointsCopy.splice(index, 1, copyTouch(touches[i]))
+          return oldTouchPointsCopy
+        })
       }
     }
   }
@@ -84,30 +59,16 @@ const ChoosePlayer = () => {
     event.preventDefault()
     setShowCopy(() => true)
 
-    if (!canvasRef.current) return
-    const canvas = canvasRef.current
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(
-        touchPoints.current,
-        touches[i].identifier
-      )
+      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
 
       if (index >= 0) {
-        ctx.lineWidth = 4
-        ctx.fillStyle = CircleColors[touches[i].identifier]
-        ctx.beginPath()
-        ctx.moveTo(
-          touchPoints.current[index].pageX,
-          touchPoints.current[index].pageY
-        )
-        ctx.lineTo(touches[i].pageX, touches[i].pageY)
-        ctx.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8)
-        touchPoints.current.splice(index, 1)
+        setTouchPoints(oldTouchPoints => {
+          const oldTouchPointsCopy = oldTouchPoints.slice()
+          oldTouchPointsCopy.splice(index, 1)
+          return oldTouchPointsCopy
+        })
       }
     }
   }
@@ -118,11 +79,8 @@ const ChoosePlayer = () => {
 
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(
-        touchPoints.current,
-        touches[i].identifier
-      )
-      touchPoints.current.splice(index, 1)
+      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
+      touchPoints.splice(index, 1)
     }
   }
 
@@ -154,15 +112,33 @@ const ChoosePlayer = () => {
 
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
-      <div className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
-      <canvas
+      <div
+        onTouchStart={handleStart}
+        onTouchMove={handleMove}
+        onTouchEnd={handleEnd}
+        onTouchCancel={handleCancel}
+        className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
+      />
+      {touchPoints.map(({ identifier, pageX, pageY }) => (
+        <Circle
+          key={identifier}
+          size={CircleRadius * 2}
+          style={{
+            position: 'absolute',
+            left: pageX - CircleRadius,
+            top: pageY - CircleRadius,
+            color: CircleColors[identifier],
+          }}
+        />
+      ))}
+      {/* <canvas
         className="absolute"
         ref={canvasRef}
         onTouchStart={handleStart}
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
         onTouchCancel={handleCancel}
-      />
+      /> */}
       {showCopy && (
         <>
           <Button
