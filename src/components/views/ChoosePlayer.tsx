@@ -1,6 +1,7 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { copyTouch, ongoingTouchIndexById } from '@/lib/utils'
+import { throttle } from 'lodash'
 import { ArrowLeft } from 'lucide-react'
 import { TouchEventHandler, useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
@@ -31,7 +32,6 @@ const ChoosePlayer = () => {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
     ctxRef.current = canvas.getContext('2d')
-    console.log('here', { ctxRef: ctxRef.current })
   }, [])
 
   const drawCircle = (x: number, y: number, color: string) => {
@@ -60,12 +60,7 @@ const ChoosePlayer = () => {
     clearCanvas()
     setShowCopy(() => false)
 
-    const touches = event.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      touchPoints.current.push(copyTouch(touches[i]))
-    }
-    touchPoints.current = Array.from(touches).map(copyTouch)
-
+    touchPoints.current = Array.from(event.touches).map(copyTouch)
     for (const t of touchPoints.current) {
       drawCircle(t.pageX, t.pageY, CircleColors[t.identifier])
     }
@@ -96,31 +91,7 @@ const ChoosePlayer = () => {
     clearCanvas()
     setShowCopy(() => true)
 
-    const touches = event.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(
-        touchPoints.current,
-        touches[i].identifier
-      )
-
-      if (index >= 0) {
-        touchPoints.current.splice(index, 1)
-      }
-    }
-  }
-
-  const handleCancel: TouchEventHandler = event => {
-    event.preventDefault()
-    setShowCopy(() => true)
-
-    const touches = event.changedTouches
-    for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(
-        touchPoints.current,
-        touches[i].identifier
-      )
-      touchPoints.current.splice(index, 1)
-    }
+    touchPoints.current = []
   }
 
   const onBackClick = () => {
@@ -138,9 +109,9 @@ const ChoosePlayer = () => {
         className="absolute"
         ref={canvasRef}
         onTouchStart={handleStart}
-        onTouchMove={handleMove}
+        onTouchMove={throttle(handleMove, 25)}
         onTouchEnd={handleEnd}
-        onTouchCancel={handleCancel}
+        onTouchCancel={handleEnd}
       />
       {showCopy && (
         <>
