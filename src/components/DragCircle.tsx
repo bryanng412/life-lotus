@@ -22,22 +22,15 @@ export type DragCircleProps = {
 
 const DragCircle = ({ id, initialX, initialY }: DragCircleProps) => {
   const [{ x, y }, api] = useSpring(() => ({ x: initialX, y: initialY }))
-  const bind = useDrag(async ({ offset: [x, y], down }) => {
-    await Promise.all(
-      api.start({ x: x + initialX, y: y + initialY, immediate: down })
-    )
-  })
 
+  const bind = useDrag(async ({ offset: [dx, dy] }) => {
+    await Promise.all(api.start({ x: initialX + dx, y: initialY + dy }))
+  })
   return (
     <AnimatedCircle
       {...bind()}
+      style={{ x, y, touchAction: 'none', color: CircleColors[id] }}
       size={CircleRadius}
-      style={{
-        position: 'absolute',
-        x,
-        y,
-        color: CircleColors[id],
-      }}
     />
   )
 }

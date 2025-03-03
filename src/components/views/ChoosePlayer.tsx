@@ -22,7 +22,7 @@ const ChoosePlayer = () => {
 
   const handleEnd: TouchEventHandler = event => {
     event.preventDefault()
-    // setTouchPoints([])
+    setTouchPoints([])
   }
 
   const onBackClick = () => {
