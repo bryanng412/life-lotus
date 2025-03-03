@@ -1,7 +1,7 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { copyTouch, ongoingTouchIndexById } from '@/lib/utils'
-import { ArrowLeft, Circle } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { TouchEventHandler, useEffect, useRef, useState } from 'react'
 import { Button } from '../ui/button'
 
@@ -19,56 +19,92 @@ const CircleRadius = 50
 const ChoosePlayer = () => {
   const { setView, previousView } = useBoundStore()
   const [showCopy, setShowCopy] = useState(true)
-  // const touchPoints = useRef<ReturnType<typeof copyTouch>[]>([])
-  const [touchPoints, setTouchPoints] = useState<
-    ReturnType<typeof copyTouch>[]
-  >([])
+  const touchPoints = useRef<ReturnType<typeof copyTouch>[]>([])
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const ctxRef = useRef<CanvasRenderingContext2D>(null)
+
+  //resize canvas to be size of window
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+    ctxRef.current = canvas.getContext('2d')
+    console.log('here', { ctxRef: ctxRef.current })
+  }, [])
+
+  const drawCircle = (x: number, y: number, color: string) => {
+    const ctx = ctxRef.current
+    if (!ctx) return
+
+    ctx.beginPath()
+    ctx.arc(x, y, CircleRadius, 0, Math.PI * 2)
+    ctx.arc(x, y, CircleRadius - 5, 0, Math.PI * 2, true)
+    ctx.fillStyle = color
+    ctx.fill('evenodd')
+    ctx.closePath()
+  }
+
+  const clearCanvas = () => {
+    if (!canvasRef.current) return
+    const canvas = canvasRef.current
+
+    const ctx = ctxRef.current
+    if (!ctx) return
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+  }
 
   const handleStart: TouchEventHandler = event => {
+    clearCanvas()
     setShowCopy(() => false)
-    // if (!canvasRef.current) return
-    // const canvas = canvasRef.current
-
-    // const ctx = canvas.getContext('2d')
-    // if (!ctx) return
 
     const touches = event.changedTouches
-    // for (let i = 0; i < touches.length; i++) {
-    //   touchPoints.current.push(copyTouch(touches[i]))
-    // }
-    setTouchPoints(Array.from(touches).map(copyTouch))
+    for (let i = 0; i < touches.length; i++) {
+      touchPoints.current.push(copyTouch(touches[i]))
+    }
+    touchPoints.current = Array.from(touches).map(copyTouch)
+
+    for (const t of touchPoints.current) {
+      drawCircle(t.pageX, t.pageY, CircleColors[t.identifier])
+    }
   }
 
   const handleMove: TouchEventHandler = event => {
+    clearCanvas()
+
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
+      const index = ongoingTouchIndexById(
+        touchPoints.current,
+        touches[i].identifier
+      )
 
       if (index >= 0) {
-        setTouchPoints(oldTouchPoints => {
-          const oldTouchPointsCopy = oldTouchPoints.slice()
-          oldTouchPointsCopy.splice(index, 1, copyTouch(touches[i]))
-          return oldTouchPointsCopy
-        })
+        touchPoints.current.splice(index, 1, copyTouch(touches[i]))
       }
+    }
+
+    for (const t of touchPoints.current) {
+      drawCircle(t.pageX, t.pageY, CircleColors[t.identifier])
     }
   }
 
   const handleEnd: TouchEventHandler = event => {
     event.preventDefault()
+    clearCanvas()
     setShowCopy(() => true)
 
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
+      const index = ongoingTouchIndexById(
+        touchPoints.current,
+        touches[i].identifier
+      )
 
       if (index >= 0) {
-        setTouchPoints(oldTouchPoints => {
-          const oldTouchPointsCopy = oldTouchPoints.slice()
-          oldTouchPointsCopy.splice(index, 1)
-          return oldTouchPointsCopy
-        })
+        touchPoints.current.splice(index, 1)
       }
     }
   }
@@ -79,28 +115,13 @@ const ChoosePlayer = () => {
 
     const touches = event.changedTouches
     for (let i = 0; i < touches.length; i++) {
-      const index = ongoingTouchIndexById(touchPoints, touches[i].identifier)
-      touchPoints.splice(index, 1)
+      const index = ongoingTouchIndexById(
+        touchPoints.current,
+        touches[i].identifier
+      )
+      touchPoints.current.splice(index, 1)
     }
   }
-
-  //resize canvas to be size of window
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-
-    const resizeCanvas = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
-    }
-    resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
-
-    return () => window.removeEventListener('resize', resizeCanvas)
-  }, [])
 
   const onBackClick = () => {
     if (previousView) {
@@ -112,33 +133,15 @@ const ChoosePlayer = () => {
 
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
-      <div
-        onTouchStart={handleStart}
-        onTouchMove={handleMove}
-        onTouchEnd={handleEnd}
-        onTouchCancel={handleCancel}
-        className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
-      />
-      {touchPoints.map(({ identifier, pageX, pageY }) => (
-        <Circle
-          key={identifier}
-          size={CircleRadius * 2}
-          style={{
-            position: 'absolute',
-            left: pageX - CircleRadius,
-            top: pageY - CircleRadius,
-            color: CircleColors[identifier],
-          }}
-        />
-      ))}
-      {/* <canvas
+      <div className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
+      <canvas
         className="absolute"
         ref={canvasRef}
         onTouchStart={handleStart}
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
         onTouchCancel={handleCancel}
-      /> */}
+      />
       {showCopy && (
         <>
           <Button
