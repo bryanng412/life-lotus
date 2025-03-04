@@ -1,4 +1,3 @@
-import DragCircle from '@/components/DragCircle'
 import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
@@ -34,10 +33,6 @@ const ChoosePlayer = () => {
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
       <div className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
-      <DragCircle />
-      <DragCircle />
-      <DragCircle />
-      <DragCircle />
       {touchPoints.length === 0 && (
         <>
           <Button

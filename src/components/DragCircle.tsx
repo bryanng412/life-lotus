@@ -21,20 +21,22 @@ const AnimatedCircle = animated(Circle)
 // }
 
 const DragCircle = () => {
-  const [{ x, y }, api] = useSpring(() => ({
-    x: 0,
-    y: 0,
-  }))
-
-  const bind = useDrag(({ offset: [x, y] }) => api.start({ x, y }), {
-    filterTaps: true,
-    preventDefault: true,
-  })
+  const [props, api] = useSpring(() => ({ x: 0, y: 0, scale: 1 }))
+  const bind = useDrag(
+    ({ active, offset: [x, y] }) =>
+      api.start({
+        x,
+        y,
+        scale: active ? 1.2 : 1,
+        immediate: k => k !== 'scale' && active,
+      }),
+    { filterTaps: true, preventDefault: true }
+  )
 
   return (
     <AnimatedCircle
       {...bind()}
-      style={{ x, y, touchAction: 'none', zIndex: 99 }}
+      style={{ ...props, touchAction: 'none' }}
       size={CircleDiameter}
     />
   )
