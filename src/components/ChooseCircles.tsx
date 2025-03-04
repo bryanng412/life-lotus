@@ -1,4 +1,6 @@
 import { PlayerTouch } from '@/components/views/ChoosePlayer'
+import { useBoundStore } from '@/lib/store/boundStore'
+import { View } from '@/lib/store/viewSlice'
 import { isEqual } from 'lodash'
 import { Circle } from 'lucide-react'
 import { AnimationDefinition, motion, Variants } from 'motion/react'
@@ -27,6 +29,7 @@ const ChooseCircles = ({
   touches: PlayerTouch[]
   numPlayers: number
 }) => {
+  const { setView } = useBoundStore()
   const [circles, setCircles] = useState<CircleTouch[]>(touches)
   if (!isEqual(touches, circles) && !circles.some(c => c.chosen)) {
     setCircles(touches)
@@ -63,6 +66,7 @@ const ChooseCircles = ({
         i === randomIndex ? { ...c, chosen: true } : { ...c, hidden: true }
       )
       setCircles(newCircles)
+      setTimeout(() => setView(View.LifeCounter), 1000)
     }
   }
 
