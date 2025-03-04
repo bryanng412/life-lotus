@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.2",
-    "@react-spring/web": "^9.7.5",
     "@tailwindcss/vite": "^4.0.9",
     "@use-gesture/react": "^10.3.1",
     "class-variance-authority": "^0.7.1",
@@ -23,6 +22,7 @@
     "immer": "^10.1.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.476.0",
+    "motion": "^12.4.10",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-tracked": "^2.0.1",
@@ -66,10 +66,6 @@
   "overrides": {
     "sharp": "0.32.6",
     "sharp-ico": "0.1.5",
-    "@react-spring/web": {
-      "react": "$react",
-      "react-dom": "$react-dom"
-    },
     "react-use-wake-lock": {
       "react": "$react"
     }

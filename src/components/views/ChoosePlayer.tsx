@@ -3,6 +3,7 @@ import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { useGesture } from '@use-gesture/react'
 import { ArrowLeft, Circle } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 
 const CircleColors = [
@@ -14,7 +15,9 @@ const CircleColors = [
   'oklch(0.627 0.265 303.9)',
 ]
 
-const CircleDiameter = 120
+const CircleDiameter = 140
+
+const MotionCircle = motion.create(Circle)
 
 const ChoosePlayer = () => {
   const { setView, previousView } = useBoundStore()
@@ -57,6 +60,9 @@ const ChoosePlayer = () => {
           prevTouches.filter(t => !liftedTouchIds.has(t.id))
         )
       },
+      onTouchCancel: () => {
+        setTouches([])
+      },
     },
     { eventOptions: { passive: false } } // Ensures full control over touch events
   )
@@ -75,18 +81,23 @@ const ChoosePlayer = () => {
         {...bind()}
         className="bg-muted absolute top-0 left-0 h-screen w-screen touch-none overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
-      {touches.map(({ id, x, y }) => (
-        <Circle
-          size={CircleDiameter}
-          key={id}
-          style={{
-            color: CircleColors[id],
-            position: 'absolute',
-            top: y - CircleDiameter / 2,
-            left: x - CircleDiameter / 2,
-          }}
-        />
-      ))}
+      <AnimatePresence>
+        {touches.map(({ id, x, y }) => (
+          <MotionCircle
+            size={CircleDiameter}
+            key={id}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            style={{
+              color: CircleColors[id],
+              position: 'absolute',
+              x: x - CircleDiameter / 2,
+              y: y - CircleDiameter / 2,
+            }}
+          />
+        ))}
+      </AnimatePresence>
       {touches.length === 0 && (
         <>
           <Button
