@@ -26,7 +26,12 @@ const ChooseCircles = ({
     },
     pulsing: {
       scale: [1, 1.25, 1],
-      transition: { duration: 1, repeat: Infinity, ease: 'easeInOut' },
+      transition: {
+        delay: 0.7,
+        duration: 1,
+        repeat: 2,
+        ease: 'easeInOut',
+      },
     },
   }
 
