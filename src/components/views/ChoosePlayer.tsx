@@ -1,26 +1,54 @@
 import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
+import { useGesture } from '@use-gesture/react'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
 
 const ChoosePlayer = () => {
   const { setView, previousView } = useBoundStore()
-  const [touchPoints] = useState([])
+  const [touches, setTouches] = useState<
+    { id: number; x: number; y: number }[]
+  >([])
 
-  // const handleStart: TouchEventHandler = event => {
-  //   setTouchPoints(
-  //     Array.from(event.touches).map(touch => ({
-  //       id: touch.identifier,
-  //       initialX: touch.pageX,
-  //       initialY: touch.pageY,
-  //     }))
-  //   )
-  // }
+  const bind = useGesture(
+    {
+      onTouchStart: ({ event }) => {
+        const newTouches = Array.from(event.touches).map(touch => ({
+          id: touch.identifier,
+          x: touch.clientX,
+          y: touch.clientY,
+        }))
+        setTouches(newTouches)
+      },
+      onTouchMove: ({ event }) => {
+        const updatedTouches = Array.from(event.touches).map(touch => ({
+          id: touch.identifier,
+          x: touch.clientX,
+          y: touch.clientY,
+        }))
 
-  // const handleEnd: TouchEventHandler = event => {
-  //   setTouchPoints([])
-  // }
+        setTouches(prevTouches =>
+          prevTouches.map(t => updatedTouches.find(ut => ut.id === t.id) || t)
+        )
+      },
+      onTouchEnd: ({ event }) => {
+        if (event.touches.length === 0) {
+          setTouches([])
+          return
+        }
+
+        const liftedTouchIds = new Set(
+          Array.from(event.changedTouches).map(t => t.identifier)
+        )
+
+        setTouches(prevTouches =>
+          prevTouches.filter(t => !liftedTouchIds.has(t.id))
+        )
+      },
+    },
+    { eventOptions: { passive: false } } // Ensures full control over touch events
+  )
 
   const onBackClick = () => {
     if (previousView) {
@@ -32,35 +60,38 @@ const ChoosePlayer = () => {
 
   return (
     <div className="bg-muted relative h-screen w-screen overflow-hidden">
-      <div className="bg-muted absolute top-0 left-0 h-screen w-screen overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20" />
-      {touchPoints.length === 0 && (
-        <>
-          <Button
-            size="lg"
-            onClick={onBackClick}
-            className="bg-border text-muted-foreground hover:bg-muted absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
-          >
-            <ArrowLeft />
-          </Button>
-          <div className="absolute top-1/4 left-1/2 flex -translate-x-1/2 transform flex-col items-center justify-center gap-3">
-            <h1 className="text-center text-3xl font-bold select-none">
-              Choose a Player
-            </h1>
-            <p className="text-center select-none">
-              Each player holds a finger on the screen. After three seconds, one
-              is chosen to go first!
-            </p>
-            <div className="align-center flex justify-center gap-2">
-              <Button
-                size="lg"
-                className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground select-none hover:opacity-90 active:scale-[.98]"
-              >
-                Skip
-              </Button>
-            </div>
+      <div
+        {...bind()}
+        className="bg-muted absolute top-0 left-0 h-screen w-screen touch-none overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
+      />
+      <p>Touch data</p>
+      <pre>{JSON.stringify(touches, null, 2)}</pre>
+      <>
+        <Button
+          size="lg"
+          onClick={onBackClick}
+          className="bg-border text-muted-foreground hover:bg-muted absolute top-4 left-4 hover:opacity-90 active:scale-[.98]"
+        >
+          <ArrowLeft />
+        </Button>
+        <div className="absolute top-1/4 left-1/2 flex -translate-x-1/2 transform flex-col items-center justify-center gap-3">
+          <h1 className="text-center text-3xl font-bold select-none">
+            Choose a Player
+          </h1>
+          <p className="text-center select-none">
+            Each player holds a finger on the screen. After three seconds, one
+            is chosen to go first!
+          </p>
+          <div className="align-center flex justify-center gap-2">
+            <Button
+              size="lg"
+              className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground select-none hover:opacity-90 active:scale-[.98]"
+            >
+              Skip
+            </Button>
           </div>
-        </>
-      )}
+        </div>
+      </>
     </div>
   )
 }
