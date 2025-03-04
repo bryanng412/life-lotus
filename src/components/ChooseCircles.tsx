@@ -1,6 +1,6 @@
 import { PlayerTouch } from '@/components/views/ChoosePlayer'
 import { Circle } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion } from 'motion/react'
 
 const MotionCircle = motion.create(Circle)
 const CircleColors = [
@@ -25,31 +25,26 @@ const ChooseCircles = ({
       scale: 1,
     },
     pulsing: {
-      scale: [1, 1.3, 1],
+      scale: [1, 1.25, 1],
       transition: { duration: 1, repeat: Infinity, ease: 'easeInOut' },
     },
   }
 
-  return (
-    <AnimatePresence>
-      {touches.map(({ id, x, y }) => (
-        <MotionCircle
-          size={CircleDiameter}
-          key={id}
-          initial={{ scale: 0 }}
-          variants={variants}
-          animate={touches.length === numPlayers ? 'pulsing' : 'normal'}
-          exit={{ scale: 0 }}
-          style={{
-            color: CircleColors[id],
-            position: 'absolute',
-            x: x - CircleDiameter / 2,
-            y: y - CircleDiameter / 2,
-          }}
-        />
-      ))}
-    </AnimatePresence>
-  )
+  return touches.map(({ id, x, y }) => (
+    <MotionCircle
+      size={CircleDiameter}
+      key={id}
+      initial={{ scale: 0 }}
+      variants={variants}
+      animate={touches.length === numPlayers ? 'pulsing' : 'normal'}
+      style={{
+        color: CircleColors[id],
+        position: 'absolute',
+        x: x - CircleDiameter / 2,
+        y: y - CircleDiameter / 2,
+      }}
+    />
+  ))
 }
 
 export default ChooseCircles
