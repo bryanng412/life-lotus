@@ -2,45 +2,36 @@ import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { useGesture } from '@use-gesture/react'
-import { ArrowLeft, Circle } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
+import ChooseCircles from '../ChooseCircles'
 
-const CircleColors = [
-  'oklch(0.646 0.222 41.116)',
-  'oklch(0.6 0.118 184.704)',
-  'oklch(0.398 0.07 227.392)',
-  'oklch(0.828 0.189 84.429)',
-  'oklch(0.769 0.188 70.08)',
-  'oklch(0.627 0.265 303.9)',
-]
-
-const CircleDiameter = 140
-
-const MotionCircle = motion.create(Circle)
+export type PlayerTouch = { id: number; x: number; y: number }
 
 const ChoosePlayer = () => {
-  const { setView, previousView } = useBoundStore()
-  const [touches, setTouches] = useState<
-    { id: number; x: number; y: number }[]
-  >([])
+  const { setView, previousView, numPlayers } = useBoundStore()
+  const [touches, setTouches] = useState<PlayerTouch[]>([])
 
   const bind = useGesture(
     {
       onTouchStart: ({ event }) => {
-        const newTouches = Array.from(event.touches).map(touch => ({
-          id: touch.identifier,
-          x: touch.clientX,
-          y: touch.clientY,
-        }))
+        const newTouches = Array.from(event.touches)
+          .slice(0, numPlayers)
+          .map(touch => ({
+            id: touch.identifier,
+            x: touch.clientX,
+            y: touch.clientY,
+          }))
         setTouches(newTouches)
       },
       onTouchMove: ({ event }) => {
-        const updatedTouches = Array.from(event.touches).map(touch => ({
-          id: touch.identifier,
-          x: touch.clientX,
-          y: touch.clientY,
-        }))
+        const updatedTouches = Array.from(event.touches)
+          .slice(0, numPlayers)
+          .map(touch => ({
+            id: touch.identifier,
+            x: touch.clientX,
+            y: touch.clientY,
+          }))
 
         setTouches(prevTouches =>
           prevTouches.map(t => updatedTouches.find(ut => ut.id === t.id) || t)
@@ -81,23 +72,7 @@ const ChoosePlayer = () => {
         {...bind()}
         className="bg-muted absolute top-0 left-0 h-screen w-screen touch-none overflow-hidden bg-[linear-gradient(to_right,var(--color-muted-foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--color-muted-foreground)_1px,transparent_1px)] bg-[size:32px_32px] opacity-20"
       />
-      <AnimatePresence>
-        {touches.map(({ id, x, y }) => (
-          <MotionCircle
-            size={CircleDiameter}
-            key={id}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            style={{
-              color: CircleColors[id],
-              position: 'absolute',
-              x: x - CircleDiameter / 2,
-              y: y - CircleDiameter / 2,
-            }}
-          />
-        ))}
-      </AnimatePresence>
+      <ChooseCircles touches={touches} numPlayers={numPlayers} />
       {touches.length === 0 && (
         <>
           <Button
