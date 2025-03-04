@@ -22,12 +22,10 @@ const ChooseCircles = ({
 }) => {
   const variants = {
     normal: {
-      opacity: 1,
       scale: 1,
     },
     pulsing: {
-      opacity: 1,
-      scale: [1, 1.2, 1],
+      scale: [1, 1.3, 1],
       transition: { duration: 1, repeat: Infinity, ease: 'easeInOut' },
     },
   }
@@ -38,10 +36,10 @@ const ChooseCircles = ({
         <MotionCircle
           size={CircleDiameter}
           key={id}
-          initial={{ opacity: 0, scale: 0 }}
+          initial={{ scale: 0 }}
           variants={variants}
           animate={touches.length === numPlayers ? 'pulsing' : 'normal'}
-          exit={{ opacity: 0, scale: 0 }}
+          exit={{ scale: 0 }}
           style={{
             color: CircleColors[id],
             position: 'absolute',
