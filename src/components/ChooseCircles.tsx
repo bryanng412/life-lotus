@@ -1,6 +1,8 @@
 import { PlayerTouch } from '@/components/views/ChoosePlayer'
+import { isEqual } from 'lodash'
 import { Circle } from 'lucide-react'
-import { motion } from 'motion/react'
+import { AnimationDefinition, motion, Variants } from 'motion/react'
+import { useState } from 'react'
 
 const MotionCircle = motion.create(Circle)
 const CircleColors = [
@@ -13,6 +15,11 @@ const CircleColors = [
 ]
 const CircleDiameter = 140
 
+type CircleTouch = {
+  chosen?: boolean
+  hidden?: boolean
+} & PlayerTouch
+
 const ChooseCircles = ({
   touches,
   numPlayers,
@@ -20,36 +27,76 @@ const ChooseCircles = ({
   touches: PlayerTouch[]
   numPlayers: number
 }) => {
-  const variants = {
+  const [circles, setCircles] = useState<CircleTouch[]>(touches)
+  if (!isEqual(touches, circles) && !circles.some(c => c.chosen)) {
+    setCircles(touches)
+  }
+
+  const variants: Variants = {
     normal: {
       scale: 1,
     },
+    hidden: {
+      scale: 0,
+    },
+    chosen: {
+      scale: 2,
+    },
     pulsing: {
-      scale: [1, 1.25, 1],
+      scale: [1, 1.3, 1, 1.3, 1, 1.3, 1],
       transition: {
-        delay: 0.7,
-        duration: 1,
-        repeat: 2,
+        delay: 0.5,
+        duration: 3,
         ease: 'easeInOut',
       },
     },
   }
 
-  return touches.map(({ id, x, y }) => (
-    <MotionCircle
-      size={CircleDiameter}
-      key={id}
-      initial={{ scale: 0 }}
-      variants={variants}
-      animate={touches.length === numPlayers ? 'pulsing' : 'normal'}
-      style={{
-        color: CircleColors[id],
-        position: 'absolute',
-        x: x - CircleDiameter / 2,
-        y: y - CircleDiameter / 2,
-      }}
-    />
-  ))
+  const onAnimationCompleted = (animation: AnimationDefinition) => {
+    if (
+      animation === 'pulsing' &&
+      !circles.some(c => c.chosen) &&
+      circles.length === numPlayers
+    ) {
+      const randomIndex = Math.floor(Math.random() * circles.length)
+      const newCircles = circles.map((c, i) =>
+        i === randomIndex ? { ...c, chosen: true } : { ...c, hidden: true }
+      )
+      setCircles(newCircles)
+    }
+  }
+
+  return (
+    <>
+      {circles.map(({ id, x, y, chosen, hidden }) => {
+        let animate = 'normal'
+        if (chosen) {
+          animate = 'chosen'
+        } else if (hidden) {
+          animate = 'hidden'
+        } else if (circles.length === numPlayers) {
+          animate = 'pulsing'
+        }
+
+        return (
+          <MotionCircle
+            size={CircleDiameter}
+            key={id}
+            initial={{ scale: 0 }}
+            variants={variants}
+            animate={animate}
+            style={{
+              color: CircleColors[id],
+              position: 'absolute',
+              x: x - CircleDiameter / 2,
+              y: y - CircleDiameter / 2,
+            }}
+            onAnimationComplete={onAnimationCompleted}
+          />
+        )
+      })}
+    </>
+  )
 }
 
 export default ChooseCircles
