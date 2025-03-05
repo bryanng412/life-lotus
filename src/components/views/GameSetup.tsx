@@ -12,8 +12,14 @@ const NumPlayersOptions: NumPlayers[] = [6, 5, 4, 3, 2]
 const StartingLifeOptions: StartingLife[] = [40, 30, 20]
 
 const GameSetup = () => {
-  const { startingLife, numPlayers, setStartingLife, setNumPlayers, setView } =
-    useBoundStore()
+  const {
+    startingLife,
+    numPlayers,
+    setStartingLife,
+    setNumPlayers,
+    setPlayers,
+    setView,
+  } = useBoundStore()
 
   const numPlayersIndex = NumPlayersOptions.indexOf(numPlayers)
   const lifeIndex = StartingLifeOptions.indexOf(startingLife)
@@ -21,6 +27,7 @@ const GameSetup = () => {
   const [initLifeIndex] = useState(lifeIndex)
 
   const startGameOnClick = () => {
+    setPlayers(numPlayers)
     setView(View.ChoosePlayer)
   }
 

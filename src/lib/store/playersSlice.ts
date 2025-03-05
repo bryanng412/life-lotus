@@ -1,3 +1,4 @@
+import { getCountersAndIndex, getPlayer } from '@/lib/utils'
 import { StateCreator } from 'zustand'
 import { BoundState } from './boundStore'
 
@@ -18,12 +19,15 @@ export type Player = {
 
 export type PlayersSlice = {
   players: Player[]
-  addPlayer: () => void
-  addCounterToPlayer: (playerId: number, counterName: CounterName) => void
-  removeCounterFromPlayer: (playerId: number, counterName: CounterName) => void
-  //increment counter
-  //decrement counter
-  //reset counters
+  setPlayers: (numPlayers: number) => void
+  addCounterToPlayer: (id: number, counterName: CounterName) => void
+  removeCounterFromPlayer: (id: number, counterName: CounterName) => void
+  updatePlayerCounter: (
+    playerId: number,
+    counterName: CounterName,
+    change: 1 | 10 | -1 | -10
+  ) => void
+  resetCounters: (options?: { keepExtraCounters: boolean }) => void
 }
 
 export const createPlayersSlice: StateCreator<
@@ -33,49 +37,85 @@ export const createPlayersSlice: StateCreator<
   PlayersSlice
 > = (set, get) => ({
   players: [],
-  addPlayer: () => {
-    const id = get().players.length
-    const startingLife = get().startingLife
-
-    const newPlayer: Player = {
-      id,
-      counters: [
-        {
-          name: CounterName.life,
-          value: startingLife,
-        },
-      ],
-    }
-
-    set(state => {
-      state.players.push(newPlayer)
-      return state
-    })
-  },
-  addCounterToPlayer: (playerId, counterName) => {
+  setPlayers: numPlayers =>
+    set({
+      players: [...Array(numPlayers).keys()].map(id => ({
+        id,
+        counters: [
+          {
+            name: CounterName.life,
+            value: get().startingLife,
+          },
+        ],
+      })),
+    }),
+  addCounterToPlayer: (id, counterName) => {
     const newCounter: Counter = {
       name: counterName,
       value: 0,
     }
 
     set(state => {
-      const index = state.players.findIndex(p => p.id === playerId)
-      if (index !== -1) state.players[index].counters.push(newCounter)
+      const player = getPlayer(state.players, id)
+      const playerHasCounter = player?.counters.some(
+        c => c.name === counterName
+      )
 
+      if (player && !playerHasCounter) {
+        player.counters.push(newCounter)
+      }
       return state
     })
   },
   removeCounterFromPlayer: (id, counterName) => {
     set(state => {
-      const playerIndex = state.players.findIndex(p => p.id === id)
-      if (playerIndex !== -1) {
-        const counterIndex = state.players[playerIndex].counters.findIndex(
-          c => c.name === counterName
-        )
-        if (counterIndex !== -1) {
-          state.players[playerIndex].counters.splice(counterIndex, 1)
-        }
+      const { counters, index } = getCountersAndIndex(
+        state.players,
+        id,
+        counterName
+      )
+      if (counters && index && index !== -1) {
+        counters.splice(index, 1)
       }
+
+      return state
+    })
+  },
+  updatePlayerCounter: (id, counterName, change) => {
+    set(state => {
+      const { counters, index } = getCountersAndIndex(
+        state.players,
+        id,
+        counterName
+      )
+      if (counters && index && index !== -1) {
+        counters[index].value += change
+      }
+
+      return state
+    })
+  },
+  resetCounters: ({ keepExtraCounters } = { keepExtraCounters: false }) => {
+    const startingLife = get().startingLife
+    set(state => {
+      state.players.forEach(p => {
+        if (!keepExtraCounters) {
+          p.counters = [
+            {
+              name: CounterName.life,
+              value: startingLife,
+            },
+          ]
+        } else {
+          p.counters.forEach(c => {
+            if (c.name === CounterName.life) {
+              c.value = startingLife
+            } else {
+              c.value = 0
+            }
+          })
+        }
+      })
 
       return state
     })
