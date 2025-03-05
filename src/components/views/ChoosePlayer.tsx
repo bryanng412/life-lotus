@@ -1,10 +1,10 @@
+import ChooseCircles from '@/components/ChooseCircles'
 import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { useGesture } from '@use-gesture/react'
 import { ArrowLeft } from 'lucide-react'
 import { useState } from 'react'
-import ChooseCircles from '../ChooseCircles'
 
 export type PlayerTouch = { id: number; x: number; y: number }
 
