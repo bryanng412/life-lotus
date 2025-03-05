@@ -1,5 +1,6 @@
 import logo from '@/assets/logo.webp'
 import CarouselSelector from '@/components/CarouselSelector'
+import OptionsDialog from '@/components/OptionsDialog'
 import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
@@ -58,12 +59,14 @@ const GameSetup = () => {
         >
           Start Game
         </Button>
-        <Button
-          size="xl"
-          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
-        >
-          <Settings />
-        </Button>
+        <OptionsDialog>
+          <Button
+            size="xl"
+            className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
+          >
+            <Settings />
+          </Button>
+        </OptionsDialog>
       </div>
     </div>
   )
