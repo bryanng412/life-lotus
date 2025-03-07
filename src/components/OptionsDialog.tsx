@@ -8,11 +8,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { useTheme } from '@/lib/hooks/useTheme'
+import { useBoundStore } from '@/lib/store/boundStore'
+import { View } from '@/lib/store/viewSlice'
 import { Moon, Sun } from 'lucide-react'
 import { FC, ReactNode } from 'react'
 
 const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
   const { theme, setTheme } = useTheme()
+  const { view, setView } = useBoundStore()
   const handleThemeOnClick = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
@@ -35,6 +38,14 @@ const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
             <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
             <span className="sr-only">Toggle theme</span>
           </Button>
+          {view === View.LifeCounter && (
+            <Button
+              variant="destructive"
+              onClick={() => setView(View.GameSetup)}
+            >
+              End Game
+            </Button>
+          )}
         </div>
       </DialogContent>
     </Dialog>

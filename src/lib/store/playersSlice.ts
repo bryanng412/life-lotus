@@ -74,7 +74,7 @@ export const createPlayersSlice: StateCreator<
         id,
         counterName
       )
-      if (counters && index && index !== -1) {
+      if (counters && index >= 0) {
         counters.splice(index, 1)
       }
 
@@ -88,7 +88,7 @@ export const createPlayersSlice: StateCreator<
         id,
         counterName
       )
-      if (counters && index && index !== -1) {
+      if (counters && index >= 0) {
         counters[index].value += change
       }
 

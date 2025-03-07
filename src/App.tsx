@@ -1,8 +1,9 @@
+import ChoosePlayer from '@/components/views/ChoosePlayer'
 import GameSetup from '@/components/views/GameSetup'
+import LifeCounter from '@/components/views/LifeCounter'
 import WakeLock from '@/components/WakeLock'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
-import ChoosePlayer from './components/views/ChoosePlayer'
 
 function App() {
   const { view } = useBoundStore()
@@ -14,6 +15,9 @@ function App() {
       break
     case View.ChoosePlayer:
       ViewComponent = ChoosePlayer
+      break
+    case View.LifeCounter:
+      ViewComponent = LifeCounter
       break
     default:
       ViewComponent = GameSetup
