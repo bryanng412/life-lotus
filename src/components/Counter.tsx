@@ -1,5 +1,11 @@
 import { useBoundStore } from '@/lib/store/boundStore'
 import { CounterName } from '@/lib/store/playersSlice'
+import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { useInterval } from 'react-interval-hook'
+import { useLongPress } from 'use-long-press'
+
+const LONGPRESS_INTERVAL = 600
 
 const Counter = ({
   id,
@@ -11,18 +17,69 @@ const Counter = ({
   value: number
 }) => {
   const { updatePlayerCounter } = useBoundStore()
+  const [incButtonActive, setIncButtonActive] = useState(false)
+  const [decButtonActive, setDecButtonActive] = useState(false)
+  const { start: incIntervalStart, stop: incIntervalStop } = useInterval(
+    () => updatePlayerCounter(id, name, 10),
+    LONGPRESS_INTERVAL,
+    {
+      autoStart: false,
+    }
+  )
+  const { start: decIntervalStart, stop: decIntervalStop } = useInterval(
+    () => updatePlayerCounter(id, name, -10),
+    LONGPRESS_INTERVAL,
+    {
+      autoStart: false,
+    }
+  )
+
+  const addBind = useLongPress(incIntervalStart, {
+    threshold: LONGPRESS_INTERVAL,
+    onStart: () => setIncButtonActive(true),
+    onFinish: () => {
+      incIntervalStop()
+      setIncButtonActive(false)
+    },
+    onCancel: () => {
+      updatePlayerCounter(id, name, 1)
+      setIncButtonActive(false)
+    },
+    cancelOnMovement: false,
+    cancelOutsideElement: false,
+  })
+  const subtractBind = useLongPress(decIntervalStart, {
+    threshold: LONGPRESS_INTERVAL,
+    onStart: () => setDecButtonActive(true),
+    onFinish: () => {
+      decIntervalStop()
+      setDecButtonActive(false)
+    },
+    onCancel: () => {
+      updatePlayerCounter(id, name, -1)
+      setDecButtonActive(false)
+    },
+    cancelOnMovement: false,
+    cancelOutsideElement: false,
+  })
 
   return (
     <div className="relative flex size-full items-center justify-center border-1 text-8xl select-none">
       {value}
       <div className="absolute flex size-full flex-col">
         <button
-          className="bg-primary size-full cursor-pointer opacity-0 active:opacity-5"
-          onClick={() => updatePlayerCounter(id, name, 1)}
+          {...addBind()}
+          className={cn(
+            'bg-primary size-full cursor-pointer opacity-0',
+            incButtonActive && 'opacity-5'
+          )}
         />
         <button
-          className="bg-primary size-full cursor-pointer opacity-0 active:opacity-5"
-          onClick={() => updatePlayerCounter(id, name, -1)}
+          {...subtractBind()}
+          className={cn(
+            'bg-primary size-full cursor-pointer opacity-0',
+            decButtonActive && 'opacity-5'
+          )}
         />
       </div>
     </div>
