@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/web-app-manifest-192x192.png" />
+  <img src="src/assets/logo.webp" height=192 />
 </div>
 
 # Jeweled Lotus
