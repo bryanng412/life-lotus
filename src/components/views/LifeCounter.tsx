@@ -15,12 +15,11 @@ const LifeCounter = () => {
     // rotate first box 180 degrees
     numPlayers === 2 && 'w-full first:[&>:first-child]:rotate-180',
 
-    // rotate first box 90 degrees, second box -90 degrees, both boxes 50% width
+    // rotate odd boxes 90 degrees, even boxes -90 degrees
+    numPlayers === 3 && 'w-1/2 odd:[&>:first-child]:rotate-90 even:-rotate-90',
+    // second box is rotated, make width 100% height.
     numPlayers === 3 &&
-      'w-1/2 first:[&>:first-child]:rotate-90 even:-rotate-90',
-    // make last box full width
-    numPlayers === 3 &&
-      'last:w-full last:[&>:first-child]:w-[100vw] last:[&>:first-child]:h-[50vh]',
+      '[&:nth-child(2)]:[&>:first-child]:w-[100vh] [&:nth-child(2)]:[&>:first-child]:-translate-x-3/4 ',
 
     // make all boxes 50% width, rotate odd boxes 90 degrees, rotate even boxes -90 degrees
     (numPlayers === 4 || numPlayers === 6) &&
@@ -38,8 +37,8 @@ const LifeCounter = () => {
     // make both boxes 50% height, 100% width
     numPlayers === 2 && 'h-[50vh] w-[100vw]',
 
-    // first 2 boxes are rotated, so make width 50% height and height 50% width
-    // last box is handled in relative wrapper
+    // first and third boxes are rotated, so make width 50% height and height 50% width
+    // second box is handled in the relative wrapper
     numPlayers === 3 &&
       'w-[50vh] h-[50vw] top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2',
 
