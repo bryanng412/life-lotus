@@ -5,6 +5,17 @@ import { BoundState } from './boundStore'
 export enum CounterName {
   life = 'life',
   poison = 'poison',
+  black = 'black',
+  white = 'white',
+  blue = 'blue',
+  red = 'red',
+  green = 'green',
+  colorless = 'colorless',
+  banana = 'banana',
+  citrus = 'citrus',
+  apple = 'apple',
+  cherry = 'cherry',
+  grape = 'grape',
 }
 
 export type Counter = {

@@ -1,3 +1,4 @@
+import CounterIcon from '@/components/CounterIcon'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { CounterName } from '@/lib/store/playersSlice'
 import { cn } from '@/lib/utils'
@@ -64,8 +65,9 @@ const Counter = ({
   })
 
   return (
-    <div className="relative flex size-full items-center justify-center border-1 text-8xl select-none">
-      {value}
+    <div className="relative flex size-full flex-col items-center justify-center border-1">
+      <p className="text-8xl select-none">{value}</p>
+      <CounterIcon counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
           {...addBind()}

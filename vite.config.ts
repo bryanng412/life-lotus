@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { VitePWA } from 'vite-plugin-pwa'
+import svgr from 'vite-plugin-svgr'
 import { defineConfig } from 'vitest/config'
 
 // https://vitejs.dev/config/
@@ -26,6 +27,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    svgr(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'script',
