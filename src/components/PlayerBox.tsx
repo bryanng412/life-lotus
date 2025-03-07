@@ -1,22 +1,20 @@
 import Counter from '@/components/Counter'
 import { useBoundStore } from '@/lib/store/boundStore'
-import { CSSProperties } from 'react'
+import { cn } from '@/lib/utils'
 
 const PlayerBox = ({
   id,
-  playerBoxStyles,
+  playerBoxClassName,
 }: {
   id: number
-  playerBoxStyles: CSSProperties
+  playerBoxClassName: string
 }) => {
   const { players } = useBoundStore()
   const player = players.filter(p => p.id === id)[0]
+  const className = cn(playerBoxClassName, 'bg-primary-foreground rounded-md')
 
   return (
-    <div
-      className="bg-primary-foreground flex size-full rounded-md"
-      style={playerBoxStyles}
-    >
+    <div className={className}>
       {player.counters.map(({ name, value }, i) => (
         <Counter key={i} id={id} name={name} value={value} />
       ))}

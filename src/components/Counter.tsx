@@ -65,7 +65,7 @@ const Counter = ({
   })
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-center border-1">
+    <div className="relative flex size-full flex-col items-center justify-evenly">
       <p className="text-8xl select-none">{value}</p>
       <CounterIcon counterName={name} />
       <div className="absolute flex size-full flex-col">
