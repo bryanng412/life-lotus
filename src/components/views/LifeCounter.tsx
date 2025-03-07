@@ -57,7 +57,7 @@ const LifeCounter = () => {
   )
 
   return (
-    <div className="bg-muted flex h-screen w-screen flex-wrap">
+    <div className="bg-muted flex h-screen w-screen flex-wrap overflow-hidden">
       {players.map(({ id }, i) => (
         <div key={id} className={relativeWrapperClassName}>
           <PlayerBox id={id} playerBoxClassName={absoluteWrapperClassName} />
