@@ -1,11 +1,10 @@
 import Counter from '@/components/Counter'
 import PlayerSettings from '@/components/PlayerSettings'
-import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { cn } from '@/lib/utils'
 import { Settings2 } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 const PlayerBox = ({
   id,
@@ -20,7 +19,10 @@ const PlayerBox = ({
   const className = cn(playerBoxClassName, 'bg-primary-foreground rounded-md')
 
   const hideSettings = useCallback(() => setShowCounters(true), [])
-  const openSettings = useCallback(() => setShowCounters(false), [])
+  const openSettings = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setShowCounters(false)
+  }, [])
 
   return (
     <div className={className}>
@@ -37,12 +39,12 @@ const PlayerBox = ({
             {player.counters.map(({ name, value }, i) => (
               <Counter key={i} id={id} name={name} value={value} />
             ))}
-            <Button
+            <button
               onClick={openSettings}
-              className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-2 active:scale-[.98]"
+              className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-4 cursor-pointer rounded-md p-2 active:scale-[.98]"
             >
-              <Settings2 />
-            </Button>
+              <Settings2 size={30} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

@@ -5,17 +5,21 @@ import { BoundState } from './boundStore'
 export enum CounterName {
   life = 'life',
   poison = 'poison',
-  black = 'black',
-  white = 'white',
-  blue = 'blue',
-  red = 'red',
-  green = 'green',
-  colorless = 'colorless',
   banana = 'banana',
   citrus = 'citrus',
-  apple = 'apple',
   cherry = 'cherry',
   grape = 'grape',
+  apple = 'apple',
+  carrot = 'carrot',
+}
+
+export const PlayerLifeIconMap: { [id: number]: CounterName } = {
+  0: CounterName.banana,
+  1: CounterName.citrus,
+  2: CounterName.cherry,
+  3: CounterName.grape,
+  4: CounterName.apple,
+  5: CounterName.carrot,
 }
 
 export type Counter = {

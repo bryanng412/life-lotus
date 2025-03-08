@@ -1,19 +1,19 @@
 import { Button } from '@/components/ui/button'
-import { ChevronsUp, CirclePlus, Palette } from 'lucide-react'
+import { ChevronsUp, CirclePlus, Paintbrush } from 'lucide-react'
 
 const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
   return (
     <div className="bg-muted relative size-full">
       <div className="flex size-full items-center justify-evenly">
-        <Button>
-          <Palette />
-        </Button>
-        <Button>
-          <CirclePlus />
-        </Button>
+        <button className="flex size-[20%] cursor-pointer items-center justify-center">
+          <Paintbrush className="size-full" />
+        </button>
+        <button className="flex size-[20%] cursor-pointer items-center justify-center">
+          <CirclePlus className="size-full" />
+        </button>
       </div>
       <Button
-        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        className="bg-primary-foreground text-muted-foreground hover:bg-muted absolute bottom-4 left-1/2 -translate-x-1/2 shadow-none"
         onClick={hideSettings}
       >
         <ChevronsUp />
