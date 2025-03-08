@@ -4,7 +4,7 @@ import { View } from '@/lib/store/viewSlice'
 import { isEqual } from 'lodash'
 import { Circle } from 'lucide-react'
 import { AnimationDefinition, motion, Variants } from 'motion/react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 const MotionCircle = motion.create(Circle)
 const CircleColors = [
@@ -22,6 +22,26 @@ type CircleTouch = {
   hidden?: boolean
 } & PlayerTouch
 
+const animationVariants: Variants = {
+  normal: {
+    scale: 1,
+  },
+  hidden: {
+    scale: 0,
+  },
+  chosen: {
+    scale: 2,
+  },
+  pulsing: {
+    scale: [1, 1.3, 1, 1.3, 1, 1.3, 1],
+    transition: {
+      delay: 0.5,
+      duration: 3,
+      ease: 'easeInOut',
+    },
+  },
+}
+
 const ChooseCircles = ({
   touches,
   numPlayers,
@@ -31,28 +51,9 @@ const ChooseCircles = ({
 }) => {
   const { setView } = useBoundStore()
   const [circles, setCircles] = useState<CircleTouch[]>(touches)
+  const syncCirclesToTouches = useCallback(() => setCircles(touches), [touches])
   if (!isEqual(touches, circles) && !circles.some(c => c.chosen)) {
-    setCircles(touches)
-  }
-
-  const variants: Variants = {
-    normal: {
-      scale: 1,
-    },
-    hidden: {
-      scale: 0,
-    },
-    chosen: {
-      scale: 2,
-    },
-    pulsing: {
-      scale: [1, 1.3, 1, 1.3, 1, 1.3, 1],
-      transition: {
-        delay: 0.5,
-        duration: 3,
-        ease: 'easeInOut',
-      },
-    },
+    syncCirclesToTouches()
   }
 
   const onAnimationCompleted = (animation: AnimationDefinition) => {
@@ -87,7 +88,7 @@ const ChooseCircles = ({
             size={CircleDiameter}
             key={id}
             initial={{ scale: 0 }}
-            variants={variants}
+            variants={animationVariants}
             animate={animate}
             style={{
               color: CircleColors[id],
