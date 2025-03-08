@@ -44,6 +44,7 @@ const Counter = ({
     },
     onCancel: () => {
       updatePlayerCounter(id, name, 1)
+      incIntervalStop()
       setIncButtonActive(false)
     },
     cancelOnMovement: false,
@@ -58,6 +59,7 @@ const Counter = ({
     },
     onCancel: () => {
       updatePlayerCounter(id, name, -1)
+      decIntervalStop()
       setDecButtonActive(false)
     },
     cancelOnMovement: false,
@@ -65,7 +67,7 @@ const Counter = ({
   })
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-evenly">
+    <div className="relative flex size-full flex-col items-center justify-evenly border-1">
       <p className="text-8xl select-none">{value}</p>
       <CounterIcon counterName={name} />
       <div className="absolute flex size-full flex-col">
