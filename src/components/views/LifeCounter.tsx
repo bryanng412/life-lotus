@@ -9,6 +9,7 @@ const LifeCounter = () => {
   const numPlayers = players.length
 
   const logoButtonPlacement = numPlayers === 2 ? 'middle' : 'bottom-right'
+  const logoButtonClassName = numPlayers === 2 ? '' : 'rotate-90'
 
   const relativeWrapperClassName = cn(
     'relative',
@@ -62,7 +63,10 @@ const LifeCounter = () => {
           <PlayerBox id={id} playerBoxClassName={absoluteWrapperClassName} />
           {((numPlayers === 2 && i === 1) || (numPlayers !== 2 && i === 0)) && (
             <OptionsDialog>
-              <LogoButton placement={logoButtonPlacement} />
+              <LogoButton
+                placement={logoButtonPlacement}
+                className={logoButtonClassName}
+              />
             </OptionsDialog>
           )}
         </div>

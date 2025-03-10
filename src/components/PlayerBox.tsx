@@ -41,9 +41,9 @@ const PlayerBox = ({
             ))}
             <button
               onClick={openSettings}
-              className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-4 cursor-pointer rounded-md p-2 active:scale-[.98]"
+              className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-2 cursor-pointer rounded-md p-2 active:scale-[.98]"
             >
-              <Settings2 size={30} />
+              <Settings2 size={34} />
             </button>
           </motion.div>
         )}
