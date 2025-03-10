@@ -6,11 +6,12 @@ export enum CounterName {
   life = 'life',
   poison = 'poison',
   banana = 'banana',
-  citrus = 'citrus',
   cherry = 'cherry',
   grape = 'grape',
-  apple = 'apple',
-  carrot = 'carrot',
+  cake = 'cake',
+  beef = 'beef',
+  pizza = 'pizza',
+  icecream = 'icecream',
 }
 
 export type Counter = {

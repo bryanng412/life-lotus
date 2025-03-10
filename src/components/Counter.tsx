@@ -1,4 +1,5 @@
 import CounterIcon from '@/components/CounterIcon'
+import { usePlayerBoxContext } from '@/lib/hooks/usePlayerBoxContext'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { CounterName } from '@/lib/store/playersSlice'
 import { cn } from '@/lib/utils'
@@ -8,16 +9,9 @@ import { useLongPress } from 'use-long-press'
 
 const LONGPRESS_INTERVAL = 600
 
-const Counter = ({
-  id,
-  name,
-  value,
-}: {
-  id: number
-  name: CounterName
-  value: number
-}) => {
+const Counter = ({ name, value }: { name: CounterName; value: number }) => {
   const { updatePlayerCounter } = useBoundStore()
+  const { id } = usePlayerBoxContext()
   const [incButtonActive, setIncButtonActive] = useState(false)
   const [decButtonActive, setDecButtonActive] = useState(false)
   const { start: incIntervalStart, stop: incIntervalStop } = useInterval(

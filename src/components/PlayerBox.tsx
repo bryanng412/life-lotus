@@ -1,5 +1,6 @@
 import Counter from '@/components/Counter'
 import PlayerSettings from '@/components/PlayerSettings'
+import { PlayerBoxContext } from '@/lib/hooks/usePlayerBoxContext'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { cn } from '@/lib/utils'
 import { Settings2 } from 'lucide-react'
@@ -25,30 +26,32 @@ const PlayerBox = ({
   }, [])
 
   return (
-    <div className={className}>
-      <PlayerSettings hideSettings={hideSettings} />
-      <AnimatePresence initial={false}>
-        {showCounters && (
-          <motion.div
-            className="bg-primary-foreground absolute size-full"
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '100%' }}
-            transition={{ type: 'tween' }}
-          >
-            {player.counters.map(({ name, value }, i) => (
-              <Counter key={i} id={id} name={name} value={value} />
-            ))}
-            <button
-              onClick={openSettings}
-              className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-2 cursor-pointer rounded-md p-2 active:scale-[.98]"
+    <PlayerBoxContext value={{ id }}>
+      <div className={className}>
+        <PlayerSettings hideSettings={hideSettings} />
+        <AnimatePresence initial={false}>
+          {showCounters && (
+            <motion.div
+              className="bg-primary-foreground no-scrollbar absolute flex size-full overflow-x-scroll"
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'tween' }}
             >
-              <Settings2 size={34} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+              {player.counters.map(({ name, value }, i) => (
+                <Counter key={`${name}-${i}`} name={name} value={value} />
+              ))}
+              <button
+                onClick={openSettings}
+                className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-2 left-2 cursor-pointer rounded-md p-2 active:scale-[.98]"
+              >
+                <Settings2 size={34} />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </PlayerBoxContext>
   )
 }
 

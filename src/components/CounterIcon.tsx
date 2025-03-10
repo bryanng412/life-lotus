@@ -1,13 +1,14 @@
 import PhyrexianIcon from '@/assets/phyrexian.svg?react'
 import { CounterName } from '@/lib/store/playersSlice'
 import {
-  Apple,
   Banana,
-  Carrot,
+  Beef,
+  CakeSlice,
   Cherry,
-  Citrus,
   Grape,
   Heart,
+  IceCreamCone,
+  Pizza,
 } from 'lucide-react'
 import { ComponentProps } from 'react'
 
@@ -21,20 +22,22 @@ const CounterIcon = ({
 }) => {
   if (counterName === CounterName.life) {
     return <Heart size={size} {...props} />
-  } else if (counterName === CounterName.apple) {
-    return <Apple size={size} {...props} />
+  } else if (counterName === CounterName.pizza) {
+    return <Pizza size={size} {...props} />
   } else if (counterName === CounterName.banana) {
     return <Banana size={size} {...props} />
   } else if (counterName === CounterName.grape) {
     return <Grape size={size} {...props} />
-  } else if (counterName === CounterName.citrus) {
-    return <Citrus size={size} {...props} />
+  } else if (counterName === CounterName.cake) {
+    return <CakeSlice size={size} {...props} />
   } else if (counterName === CounterName.cherry) {
     return <Cherry size={size} {...props} />
-  } else if (counterName === CounterName.carrot) {
-    return <Carrot size={size} {...props} />
+  } else if (counterName === CounterName.icecream) {
+    return <IceCreamCone size={size} {...props} />
+  } else if (counterName === CounterName.beef) {
+    return <Beef size={size} {...props} />
   } else {
-    return <PhyrexianIcon width={24} height="auto" {...props} />
+    return <PhyrexianIcon width={size + 4} height={size + 4} {...props} />
   }
 }
 
