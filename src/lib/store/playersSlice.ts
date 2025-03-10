@@ -13,15 +13,6 @@ export enum CounterName {
   carrot = 'carrot',
 }
 
-export const PlayerLifeIconMap: { [id: number]: CounterName } = {
-  0: CounterName.banana,
-  1: CounterName.citrus,
-  2: CounterName.cherry,
-  3: CounterName.grape,
-  4: CounterName.apple,
-  5: CounterName.carrot,
-}
-
 export type Counter = {
   name: CounterName
   value: number
