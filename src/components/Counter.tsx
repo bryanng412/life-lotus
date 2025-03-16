@@ -63,7 +63,7 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
   return (
     <div className="relative flex size-full flex-col items-center justify-evenly not-first:border-l-1">
       <p className="text-7xl select-none">{value}</p>
-      <CounterIcon counterName={name} />
+      <CounterIcon className="mb-2" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
           {...addBind()}
