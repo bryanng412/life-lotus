@@ -61,15 +61,15 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
   })
 
   return (
-    <div className="relative flex size-full flex-col items-center justify-evenly not-first:border-l-1">
+    <div className="relative flex size-full flex-col items-center justify-center not-first:border-l-1 md:justify-evenly">
       <p className="text-7xl select-none">{value}</p>
-      <CounterIcon className="mb-2" counterName={name} />
+      <CounterIcon className="mt-4 md:mt-0" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
           {...addBind()}
           className={cn(
             'bg-primary size-full cursor-pointer opacity-0',
-            incButtonActive && 'opacity-5'
+            incButtonActive && 'opacity-8'
           )}
         />
         <button
