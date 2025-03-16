@@ -49,7 +49,7 @@ export function getPlayerColors() {
     },
     {
       name: 'Raspberry',
-      value: 'oklch(40.63% 0.162 4.7)',
+      value: 'oklch(45.85% 0.1837 4.87)',
     },
     {
       name: 'Coral',
@@ -57,11 +57,11 @@ export function getPlayerColors() {
     },
     {
       name: 'Pink Peach',
-      value: 'oklch(91.74% 0.0425 16.16)',
+      value: 'oklch(86.97% 0.0702 15.33)',
     },
     {
       name: 'Tea Green',
-      value: 'oklch(86.27% 0.0498 130.23)',
+      value: 'oklch(84.79% 0.0558 130.21)',
     },
   ]
 }
