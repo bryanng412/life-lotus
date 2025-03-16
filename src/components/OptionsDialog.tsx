@@ -1,3 +1,4 @@
+import EndGameButton from '@/components/EndGameButton'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -19,7 +20,7 @@ const OptionsDialog: FC<{
   children: ReactNode
 }> = ({ onClose, children }) => {
   const { theme, setTheme } = useTheme()
-  const { numPlayers, view, setView } = useBoundStore()
+  const { numPlayers, view } = useBoundStore()
   const handleThemeOnClick = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
@@ -46,15 +47,7 @@ const OptionsDialog: FC<{
             <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
             <span className="sr-only">Toggle theme</span>
           </Button>
-          {view === View.LifeCounter && (
-            <Button
-              variant="destructive"
-              onClick={() => setView(View.GameSetup)}
-              className="select-none"
-            >
-              End Game
-            </Button>
-          )}
+          {view === View.LifeCounter && <EndGameButton />}
         </div>
       </DialogContent>
     </Dialog>
