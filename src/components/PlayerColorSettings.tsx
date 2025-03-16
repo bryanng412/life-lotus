@@ -13,7 +13,7 @@ const PlayerColorSettings = ({ onClose }: { onClose: () => void }) => {
 
   return (
     <div
-      className="relative grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pb-18 md:grid-rows-3 md:pt-16"
+      className="relative grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pt-8 pb-18 md:grid-rows-3 md:pt-16"
       style={{ backgroundColor: currentColor }}
     >
       {colors.map(({ value }, i) => (

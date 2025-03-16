@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button'
-import { ChevronsUp, CirclePlus, Paintbrush } from 'lucide-react'
+import { ChevronsUp, CirclePlus, Palette } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import PlayerColorSettings from './PlayerColorSettings'
 import PlayerCounterSettings from './PlayerCounterSettings'
@@ -34,14 +34,14 @@ const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
               onClick={showColorsSetting}
               className="flex cursor-pointer flex-col items-center justify-center"
             >
-              <Paintbrush className="mb-2 size-14" />
+              <Palette className="mb-2 size-14 md:size-18" />
               <p>Colors</p>
             </button>
             <button
               onClick={showCountersSetting}
               className="flex cursor-pointer flex-col items-center justify-center"
             >
-              <CirclePlus className="mb-2 size-14" />
+              <CirclePlus className="mb-2 size-14 md:size-18" />
               <p>Counters</p>
             </button>
           </div>
