@@ -19,33 +19,33 @@ const LogoButton = ({
         {show && (
           <motion.div
             className={cn(
-              'bg-accent absolute z-1 flex size-full h-8 w-32 transform items-center justify-between rounded-full',
+              'bg-accent absolute z-1 flex size-full h-[3.5rem] transform items-center justify-between rounded-full p-2',
               placement === 'bottom-right' &&
                 'right-0 bottom-0 translate-x-1/2 translate-y-1/2 rotate-90',
               placement === 'middle' &&
                 'left-1/2 -translate-x-1/2 -translate-y-1/2'
             )}
-            initial={{ width: 105 }}
-            animate={{ width: 200 }}
-            exit={{ width: 105 }}
+            initial={{ width: '3.5rem' }}
+            animate={{ width: '11rem' }}
+            exit={{ width: '3.5rem' }}
             transition={{ type: 'tween', ease: ['easeIn', 'easeOut'] }}
           >
             <button
               className={cn(
-                'cursor-pointer rounded-full p-2',
+                'ml-1 cursor-pointer rounded-full',
                 placement === 'bottom-right' && 'rotate-90'
               )}
             >
-              <RefreshCcw size={34} />
+              <RefreshCcw size={32} />
             </button>
             <OptionsDialog>
               <button
                 className={cn(
-                  'cursor-pointer rounded-full p-2',
+                  'mr-1 cursor-pointer rounded-full',
                   placement === 'bottom-right' && 'rotate-90'
                 )}
               >
-                <Settings size={34} />
+                <Settings size={32} />
               </button>
             </OptionsDialog>
           </motion.div>
