@@ -10,20 +10,25 @@ import {
 import { useTheme } from '@/lib/hooks/useTheme'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
+import { cn } from '@/lib/utils'
 import { Moon, Sun } from 'lucide-react'
 import { FC, ReactNode } from 'react'
 
 const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
   const { theme, setTheme } = useTheme()
-  const { view, setView } = useBoundStore()
+  const { numPlayers, view, setView } = useBoundStore()
   const handleThemeOnClick = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
   }
+  const contentClassName = cn(
+    'sm:max-w-[425px]',
+    numPlayers > 2 && view === View.LifeCounter && 'rotate-90'
+  )
 
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className={contentClassName}>
         <DialogHeader>
           <DialogTitle>Options</DialogTitle>
           <DialogDescription>Thanks for using Jeweled Lotus!</DialogDescription>
