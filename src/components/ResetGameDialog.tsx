@@ -9,6 +9,7 @@ import {
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { useBoundStore } from '@/lib/store/boundStore'
+import { View } from '@/lib/store/viewSlice'
 import { cn } from '@/lib/utils'
 import { FC, ReactNode } from 'react'
 import { Button } from './ui/button'
@@ -20,11 +21,17 @@ const ResetGameDialog: FC<{ onClose: () => void; children: ReactNode }> = ({
   const {
     numPlayers,
     keepExtraCounters,
+    choosePlayerOnReset,
     toggleKeepExtraCounters,
+    toggleChoosePlayerOnReset,
     resetCounters,
+    setView,
   } = useBoundStore()
   const contentClassName = cn('sm:max-w-[425px]', numPlayers > 2 && 'rotate-90')
   const onResetClick = () => {
+    if (choosePlayerOnReset) {
+      setView(View.ChoosePlayer)
+    }
     resetCounters()
     onClose()
   }
@@ -36,7 +43,15 @@ const ResetGameDialog: FC<{ onClose: () => void; children: ReactNode }> = ({
         <DialogHeader>
           <DialogTitle>Reset Game</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="mt-4 flex flex-col items-center justify-center space-y-8">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="rechoose-players"
+              checked={choosePlayerOnReset}
+              onCheckedChange={toggleChoosePlayerOnReset}
+            />
+            <Label htmlFor="rechoose-players">Rechoose Starting Player</Label>
+          </div>
           <div className="flex items-center space-x-2">
             <Switch
               id="keep-counters"
