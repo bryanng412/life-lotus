@@ -21,12 +21,12 @@ export type Counter = {
 
 export type Player = {
   id: number
-  color: string
   counters: Counter[]
 }
 
 export type PlayersSlice = {
   players: Player[]
+  playerColors: string[]
   setPlayers: (numPlayers: number) => void
   addCounterToPlayer: (id: number, counterName: CounterName) => void
   removeCounterFromPlayer: (id: number, counterName: CounterName) => void
@@ -46,11 +46,19 @@ export const createPlayersSlice: StateCreator<
   PlayersSlice
 > = (set, get) => ({
   players: [],
-  setPlayers: numPlayers =>
+  playerColors: [],
+  setPlayers: numPlayers => {
+    const colors = getPlayerColors().map(({ value }) => value)
+    for (let i = 0; i < numPlayers; i++) {
+      set(state => {
+        state.playerColors[i] = state.playerColors[i] || colors[i]
+        return state
+      })
+    }
+
     set({
       players: [...Array(numPlayers).keys()].map(id => ({
         id,
-        color: getPlayerColors()[id].value,
         counters: [
           {
             name: CounterName.life,
@@ -58,7 +66,8 @@ export const createPlayersSlice: StateCreator<
           },
         ],
       })),
-    }),
+    })
+  },
   addCounterToPlayer: (id, counterName) => {
     const newCounter: Counter = {
       name: counterName,
@@ -133,11 +142,7 @@ export const createPlayersSlice: StateCreator<
   },
   updatePlayerColor: (id, color) =>
     set(state => {
-      const player = getPlayer(state.players, id)
-      if (player) {
-        player.color = color
-      }
-
+      state.playerColors[id] = color
       return state
     }),
 })

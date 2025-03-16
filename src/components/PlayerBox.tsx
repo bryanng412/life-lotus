@@ -15,7 +15,7 @@ const PlayerBox = ({
   playerBoxClassName: string
 }) => {
   const [showCounters, setShowCounters] = useState(true)
-  const { players } = useBoundStore()
+  const { players, playerColors } = useBoundStore()
   const player = players.filter(p => p.id === id)[0]
   const className = cn(
     playerBoxClassName,
@@ -36,7 +36,7 @@ const PlayerBox = ({
           {showCounters && (
             <motion.div
               className="no-scrollbar absolute flex size-full overflow-x-scroll rounded-md"
-              style={{ backgroundColor: player.color }}
+              style={{ backgroundColor: playerColors[id] }}
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}

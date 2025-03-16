@@ -7,8 +7,8 @@ import { CheckCircle, X } from 'lucide-react'
 const PlayerColorSettings = ({ onClose }: { onClose: () => void }) => {
   const colors = getPlayerColors()
   const { id } = usePlayerBoxContext()
-  const { players, updatePlayerColor } = useBoundStore()
-  const currentColor = players[id].color
+  const { updatePlayerColor, playerColors } = useBoundStore()
+  const currentColor = playerColors[id]
   const currentColorIndex = colors.findIndex(c => c.value === currentColor)
 
   return (

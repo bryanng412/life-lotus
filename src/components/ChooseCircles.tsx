@@ -1,7 +1,6 @@
 import { PlayerTouch } from '@/components/views/ChoosePlayer'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
-import { getPlayerColors } from '@/lib/utils'
 import { isEqual } from 'lodash'
 import { Circle } from 'lucide-react'
 import { AnimationDefinition, motion, Variants } from 'motion/react'
@@ -42,13 +41,12 @@ const ChooseCircles = ({
   touches: PlayerTouch[]
   numPlayers: number
 }) => {
-  const { setView } = useBoundStore()
+  const { setView, playerColors } = useBoundStore()
   const [circles, setCircles] = useState<CircleTouch[]>(touches)
   const syncCirclesToTouches = useCallback(() => setCircles(touches), [touches])
   if (!isEqual(touches, circles) && !circles.some(c => c.chosen)) {
     syncCirclesToTouches()
   }
-  const circleColors = getPlayerColors().map(c => c.value)
 
   const onAnimationCompleted = (animation: AnimationDefinition) => {
     if (
@@ -85,7 +83,7 @@ const ChooseCircles = ({
             variants={animationVariants}
             animate={animate}
             style={{
-              color: circleColors[id],
+              color: playerColors[id],
               position: 'absolute',
               x: x - CircleDiameter / 2,
               y: y - CircleDiameter / 2,
