@@ -43,7 +43,7 @@ const PlayerCounterSettings = ({ onClose }: { onClose: () => void }) => {
       })}
 
       <Button
-        className="bg-muted text-muted-foreground hover:bg-primary-foreground absolute bottom-4 left-1/2 -translate-x-1/2 shadow-none"
+        className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-4 left-1/2 -translate-x-1/2 shadow-none"
         onClick={onClose}
       >
         <X />

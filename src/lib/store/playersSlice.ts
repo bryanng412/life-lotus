@@ -1,4 +1,4 @@
-import { getCountersAndIndex, getPlayer } from '@/lib/utils'
+import { getCountersAndIndex, getPlayer, getPlayerColors } from '@/lib/utils'
 import { StateCreator } from 'zustand'
 import { BoundState } from './boundStore'
 
@@ -21,6 +21,7 @@ export type Counter = {
 
 export type Player = {
   id: number
+  color: string
   counters: Counter[]
 }
 
@@ -35,6 +36,7 @@ export type PlayersSlice = {
     change: 1 | 10 | -1 | -10
   ) => void
   resetCounters: (options?: { keepExtraCounters: boolean }) => void
+  updatePlayerColor: (id: number, color: string) => void
 }
 
 export const createPlayersSlice: StateCreator<
@@ -48,6 +50,7 @@ export const createPlayersSlice: StateCreator<
     set({
       players: [...Array(numPlayers).keys()].map(id => ({
         id,
+        color: getPlayerColors()[id].value,
         counters: [
           {
             name: CounterName.life,
@@ -127,4 +130,13 @@ export const createPlayersSlice: StateCreator<
       return state
     })
   },
+  updatePlayerColor: (id, color) =>
+    set(state => {
+      const player = getPlayer(state.players, id)
+      if (player) {
+        player.color = color
+      }
+
+      return state
+    }),
 })

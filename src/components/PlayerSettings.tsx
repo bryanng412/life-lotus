@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { ChevronsUp, CirclePlus, Paintbrush } from 'lucide-react'
 import { useCallback, useState } from 'react'
+import PlayerColorSettings from './PlayerColorSettings'
 import PlayerCounterSettings from './PlayerCounterSettings'
 
 const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
@@ -19,7 +20,10 @@ const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
   const showColorsSetting = useCallback(() => setCurrentSetting('colors'), [])
 
   return (
-    <div className="bg-primary-foreground relative size-full pb-2">
+    <div className="bg-muted relative size-full pb-2">
+      {currentSetting === 'colors' && (
+        <PlayerColorSettings onClose={hideCurrentSetting} />
+      )}
       {currentSetting === 'counters' && (
         <PlayerCounterSettings onClose={hideCurrentSetting} />
       )}
@@ -42,7 +46,7 @@ const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
             </button>
           </div>
           <Button
-            className="bg-muted text-muted-foreground hover:bg-primary-foreground absolute bottom-2 left-1/2 -translate-x-1/2 shadow-none"
+            className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-2 left-1/2 -translate-x-1/2 shadow-none"
             onClick={hideSettings}
           >
             <ChevronsUp />

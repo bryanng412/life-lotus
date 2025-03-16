@@ -17,7 +17,10 @@ const PlayerBox = ({
   const [showCounters, setShowCounters] = useState(true)
   const { players } = useBoundStore()
   const player = players.filter(p => p.id === id)[0]
-  const className = cn(playerBoxClassName, 'bg-primary-foreground rounded-md')
+  const className = cn(
+    playerBoxClassName,
+    'bg-primary-foreground rounded-md border-2'
+  )
 
   const hideSettings = useCallback(() => setShowCounters(true), [])
   const openSettings = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,7 +35,8 @@ const PlayerBox = ({
         <AnimatePresence initial={false}>
           {showCounters && (
             <motion.div
-              className="bg-primary-foreground no-scrollbar absolute flex size-full overflow-x-scroll"
+              className="no-scrollbar absolute flex size-full overflow-x-scroll rounded-md"
+              style={{ backgroundColor: player.color }}
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
@@ -43,7 +47,7 @@ const PlayerBox = ({
               ))}
               <button
                 onClick={openSettings}
-                className="bg-primary-foreground text-muted-foreground hover:bg-muted active:bg-muted absolute bottom-1 left-1 cursor-pointer rounded-md p-2 active:scale-[.98]"
+                className="text-foreground absolute bottom-1 left-1 cursor-pointer rounded-md p-2 active:scale-[.98]"
               >
                 <Settings2 size={30} />
               </button>

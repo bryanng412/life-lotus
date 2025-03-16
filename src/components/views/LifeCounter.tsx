@@ -34,7 +34,7 @@ const LifeCounter = () => {
       'last:w-full last:[&>:first-child]:w-[100vw] last:[&>:first-child]:h-[33vh]'
   )
   const absoluteWrapperClassName = cn(
-    'absolute flex justify-evenly items-center border-1',
+    'absolute flex justify-evenly items-center',
     // make both boxes 50% height, 100% width
     numPlayers === 2 && 'h-[50vh] w-[100vw]',
 

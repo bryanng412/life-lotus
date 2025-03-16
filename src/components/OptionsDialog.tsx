@@ -42,6 +42,7 @@ const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
             <Button
               variant="destructive"
               onClick={() => setView(View.GameSetup)}
+              className="select-none"
             >
               End Game
             </Button>
