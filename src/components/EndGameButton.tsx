@@ -20,20 +20,14 @@ const EndGameButton = () => {
       className="flex flex-col items-center justify-center"
     >
       <CollapsibleTrigger asChild>
-        <Button className="select-none">End Game</Button>
+        <Button>End Game</Button>
       </CollapsibleTrigger>
       <CollapsibleContent>
         <div className="mt-4 flex flex-col items-center justify-center space-y-2">
-          <p className="select-none">Are you sure?</p>
+          <p>Are you sure?</p>
           <div className="flex items-center justify-center space-x-2">
-            <Button onClick={() => setIsOpen(false)} className="select-none">
-              No
-            </Button>
-            <Button
-              onClick={endGameOnClick}
-              variant="destructive"
-              className="select-none"
-            >
+            <Button onClick={() => setIsOpen(false)}>No</Button>
+            <Button onClick={endGameOnClick} variant="destructive">
               Yes
             </Button>
           </div>

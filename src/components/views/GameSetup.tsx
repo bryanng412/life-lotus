@@ -45,7 +45,7 @@ const GameSetup = () => {
             onSelect={setNumPlayers}
             startIndex={initNumPlayersIndex}
           />
-          <p className="text-lg font-medium select-none md:text-xl">Players</p>
+          <p className="text-lg font-medium md:text-xl">Players</p>
         </div>
         <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-18 md:gap-20">
           <CarouselSelector
@@ -53,15 +53,13 @@ const GameSetup = () => {
             onSelect={setStartingLife}
             startIndex={initLifeIndex}
           />
-          <p className="text-lg font-medium select-none md:text-xl">
-            Starting Life
-          </p>
+          <p className="text-lg font-medium md:text-xl">Starting Life</p>
         </div>
       </div>
       <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-4">
         <Button
           size="xxl"
-          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground md:padding-20 select-none hover:opacity-90 active:scale-[.98]"
+          className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground md:padding-20 hover:opacity-90 active:scale-[.98]"
           onClick={startGameOnClick}
         >
           Start Game

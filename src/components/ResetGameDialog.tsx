@@ -46,11 +46,7 @@ const ResetGameDialog: FC<{ onClose: () => void; children: ReactNode }> = ({
             <Label htmlFor="keep-counters">Keep Counters</Label>
           </div>
           <DialogClose asChild>
-            <Button
-              variant="destructive"
-              className="select-none"
-              onClick={onResetClick}
-            >
+            <Button variant="destructive" onClick={onResetClick}>
               Reset Game
             </Button>
           </DialogClose>

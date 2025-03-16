@@ -48,7 +48,7 @@ const CarouselSelector = ({
         {slides.map((slide, index) => (
           <CarouselItem
             key={index}
-            className="flex items-center justify-center text-6xl font-semibold select-none"
+            className="flex items-center justify-center text-6xl font-semibold"
           >
             {slide}
           </CarouselItem>
