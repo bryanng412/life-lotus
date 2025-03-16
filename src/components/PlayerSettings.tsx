@@ -20,7 +20,7 @@ const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
   const showColorsSetting = useCallback(() => setCurrentSetting('colors'), [])
 
   return (
-    <div className="bg-muted relative size-full pb-2">
+    <div className="bg-muted relative size-full">
       {currentSetting === 'colors' && (
         <PlayerColorSettings onClose={hideCurrentSetting} />
       )}

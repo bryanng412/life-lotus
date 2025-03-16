@@ -12,7 +12,10 @@ const PlayerColorSettings = ({ onClose }: { onClose: () => void }) => {
   const currentColorIndex = colors.findIndex(c => c.value === currentColor)
 
   return (
-    <div className="relative mt-4 grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pb-18 md:grid-rows-3 md:pt-16">
+    <div
+      className="relative grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pb-18 md:grid-rows-3 md:pt-16"
+      style={{ backgroundColor: currentColor }}
+    >
       {colors.map(({ value }, i) => (
         <button
           key={i}
@@ -24,7 +27,7 @@ const PlayerColorSettings = ({ onClose }: { onClose: () => void }) => {
         </button>
       ))}
       <Button
-        className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-4 left-1/2 -translate-x-1/2 shadow-none"
+        className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-2 left-1/2 -translate-x-1/2 shadow-none"
         onClick={onClose}
       >
         <X />

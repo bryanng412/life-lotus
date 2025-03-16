@@ -24,7 +24,7 @@ const PlayerCounterSettings = ({ onClose }: { onClose: () => void }) => {
   const playerCounters = players.filter(p => p.id === id)[0].counters
 
   return (
-    <div className="relative mt-4 grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pb-18 md:grid-rows-3 md:pt-16">
+    <div className="relative grid size-full grid-cols-4 grid-rows-2 gap-4 p-4 pb-18 md:grid-rows-3 md:pt-16">
       {icons.map((counterName, i) => {
         const hasCounter = playerCounters.some(c => c.name === counterName)
         const onPressedChange = hasCounter
@@ -43,7 +43,7 @@ const PlayerCounterSettings = ({ onClose }: { onClose: () => void }) => {
       })}
 
       <Button
-        className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-4 left-1/2 -translate-x-1/2 shadow-none"
+        className="bg-muted text-foreground hover:bg-primary-foreground absolute bottom-2 left-1/2 -translate-x-1/2 shadow-none"
         onClick={onClose}
       >
         <X />
