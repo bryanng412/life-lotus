@@ -20,7 +20,7 @@ const PlayerColorSettings = ({ onClose }: { onClose: () => void }) => {
           className="border-muted-foreground flex cursor-pointer items-center justify-center rounded-md border-1"
           style={{ backgroundColor: value }}
         >
-          {currentColorIndex === i && <CheckCircle size={32} />}
+          {currentColorIndex === i && <CheckCircle size={30} />}
         </button>
       ))}
       <Button
