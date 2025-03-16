@@ -6,6 +6,9 @@ import { RefreshCcw, Settings } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { ComponentProps, useState } from 'react'
 
+const MotionRefreshIcon = motion.create(RefreshCcw)
+const MotionSettingsIcon = motion.create(Settings)
+
 const LogoButton = ({
   placement,
   className,
@@ -38,7 +41,12 @@ const LogoButton = ({
                   placement === 'bottom-right' && 'rotate-90'
                 )}
               >
-                <RefreshCcw size={32} />
+                <MotionRefreshIcon
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  size={32}
+                />
               </button>
             </ResetGameDialog>
             <OptionsDialog onClose={toggleShow}>
@@ -48,7 +56,12 @@ const LogoButton = ({
                   placement === 'bottom-right' && 'rotate-90'
                 )}
               >
-                <Settings size={32} />
+                <MotionSettingsIcon
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  size={32}
+                />
               </button>
             </OptionsDialog>
           </motion.div>
