@@ -62,7 +62,7 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
 
   return (
     <div className="relative flex size-full flex-col items-center justify-center not-first:border-l-1 md:justify-evenly">
-      <p className="text-7xl">{value}</p>
+      <p className="text-7xl md:text-9xl">{value}</p>
       <CounterIcon className="mt-4 md:mt-0" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
