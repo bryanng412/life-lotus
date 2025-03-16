@@ -34,14 +34,14 @@ const PlayerSettings = ({ hideSettings }: { hideSettings: () => void }) => {
               onClick={showColorsSetting}
               className="flex cursor-pointer flex-col items-center justify-center"
             >
-              <Palette className="mb-2 size-14 md:size-18" />
+              <Palette className="mb-2 size-14 md:size-22" />
               <p>Colors</p>
             </button>
             <button
               onClick={showCountersSetting}
               className="flex cursor-pointer flex-col items-center justify-center"
             >
-              <CirclePlus className="mb-2 size-14 md:size-18" />
+              <CirclePlus className="mb-2 size-14 md:size-22" />
               <p>Counters</p>
             </button>
           </div>

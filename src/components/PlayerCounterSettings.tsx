@@ -37,7 +37,7 @@ const PlayerCounterSettings = ({ onClose }: { onClose: () => void }) => {
             pressed={hasCounter}
             onPressedChange={onPressedChange}
           >
-            <CounterIcon counterName={counterName} className="size-full" />
+            <CounterIcon counterName={counterName} className="size-full p-2" />
           </Toggle>
         )
       })}
