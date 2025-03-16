@@ -37,7 +37,7 @@ export function getPlayerColors() {
     },
     {
       name: 'Teal',
-      value: 'oklch(54.3% 0.0917 207.64)',
+      value: 'oklch(63.74% 0.1083 208.47)',
     },
     {
       name: 'Powder',
