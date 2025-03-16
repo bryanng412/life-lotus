@@ -1,5 +1,6 @@
 import logo from '@/assets/logo.webp'
 import OptionsDialog from '@/components/OptionsDialog'
+import ResetGameDialog from '@/components/ResetGameDialog'
 import { cn } from '@/lib/utils'
 import { RefreshCcw, Settings } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
@@ -30,15 +31,17 @@ const LogoButton = ({
             exit={{ width: '3.5rem' }}
             transition={{ type: 'tween', ease: ['easeIn', 'easeOut'] }}
           >
-            <button
-              className={cn(
-                'ml-1 cursor-pointer rounded-full',
-                placement === 'bottom-right' && 'rotate-90'
-              )}
-            >
-              <RefreshCcw size={32} />
-            </button>
-            <OptionsDialog>
+            <ResetGameDialog onClose={toggleShow}>
+              <button
+                className={cn(
+                  'ml-1 cursor-pointer rounded-full',
+                  placement === 'bottom-right' && 'rotate-90'
+                )}
+              >
+                <RefreshCcw size={32} />
+              </button>
+            </ResetGameDialog>
+            <OptionsDialog onClose={toggleShow}>
               <button
                 className={cn(
                   'mr-1 cursor-pointer rounded-full',

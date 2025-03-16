@@ -4,10 +4,11 @@ import { create } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { createGameInfoSlice, GameInfoSlice } from './gameInfoSlice'
+import { createOptionsSlice, OptionsSlice } from './optionsSlice'
 import { createPlayersSlice, PlayersSlice } from './playersSlice'
 import { createViewSlice, ViewSlice } from './viewSlice'
 
-export type BoundState = ViewSlice & GameInfoSlice & PlayersSlice
+export type BoundState = ViewSlice & GameInfoSlice & PlayersSlice & OptionsSlice
 
 export const useBoundStoreBase = create<BoundState>()(
   devtools(
@@ -17,6 +18,7 @@ export const useBoundStoreBase = create<BoundState>()(
           ...createViewSlice(...args),
           ...createGameInfoSlice(...args),
           ...createPlayersSlice(...args),
+          ...createOptionsSlice(...args),
         })),
         {
           name: 'jeweled-lotus-store',

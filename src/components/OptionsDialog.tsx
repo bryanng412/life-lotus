@@ -14,7 +14,10 @@ import { cn } from '@/lib/utils'
 import { Moon, Sun } from 'lucide-react'
 import { FC, ReactNode } from 'react'
 
-const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
+const OptionsDialog: FC<{
+  onClose?: () => void
+  children: ReactNode
+}> = ({ onClose, children }) => {
   const { theme, setTheme } = useTheme()
   const { numPlayers, view, setView } = useBoundStore()
   const handleThemeOnClick = () => {
@@ -28,12 +31,12 @@ const OptionsDialog: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className={contentClassName}>
+      <DialogContent className={contentClassName} onClose={onClose}>
         <DialogHeader>
           <DialogTitle>Options</DialogTitle>
           <DialogDescription>Thanks for using Jeweled Lotus!</DialogDescription>
         </DialogHeader>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center space-y-4">
           <Button
             size="lg"
             className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90"

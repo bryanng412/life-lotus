@@ -29,11 +29,15 @@ function DialogClose({
 }
 
 function DialogOverlay({
+  onClose,
   className,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+}: { onClose?: () => void } & React.ComponentProps<
+  typeof DialogPrimitive.Overlay
+>) {
   return (
     <DialogPrimitive.Overlay
+      onClick={onClose}
       data-slot="dialog-overlay"
       className={cn(
         'data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80',
@@ -47,11 +51,14 @@ function DialogOverlay({
 function DialogContent({
   className,
   children,
+  onClose,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: { onClose?: () => void } & React.ComponentProps<
+  typeof DialogPrimitive.Content
+>) {
   return (
     <DialogPortal data-slot="dialog-portal">
-      <DialogOverlay />
+      <DialogOverlay onClose={onClose} />
       <DialogPrimitive.Content
         data-slot="dialog-content"
         className={cn(
@@ -61,7 +68,10 @@ function DialogContent({
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 cursor-pointer rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        <DialogPrimitive.Close
+          onClick={onClose}
+          className="data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-4 right-4 cursor-pointer rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+        >
           <XIcon />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

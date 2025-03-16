@@ -35,7 +35,7 @@ export type PlayersSlice = {
     counterName: CounterName,
     change: 1 | 10 | -1 | -10
   ) => void
-  resetCounters: (options?: { keepExtraCounters: boolean }) => void
+  resetCounters: () => void
   updatePlayerColor: (id: number, color: string) => void
 }
 
@@ -105,8 +105,9 @@ export const createPlayersSlice: StateCreator<
       return state
     })
   },
-  resetCounters: ({ keepExtraCounters } = { keepExtraCounters: false }) => {
+  resetCounters: () => {
     const startingLife = get().startingLife
+    const keepExtraCounters = get().keepExtraCounters
     set(state => {
       state.players.forEach(p => {
         if (!keepExtraCounters) {
