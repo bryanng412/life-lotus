@@ -1,5 +1,4 @@
 import LogoButton from '@/components/LogoButton'
-import OptionsDialog from '@/components/OptionsDialog'
 import PlayerBox from '@/components/PlayerBox'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { cn } from '@/lib/utils'
@@ -62,12 +61,10 @@ const LifeCounter = () => {
         <div key={id} className={relativeWrapperClassName}>
           <PlayerBox id={id} playerBoxClassName={absoluteWrapperClassName} />
           {((numPlayers === 2 && i === 1) || (numPlayers !== 2 && i === 0)) && (
-            <OptionsDialog>
-              <LogoButton
-                placement={logoButtonPlacement}
-                className={logoButtonClassName}
-              />
-            </OptionsDialog>
+            <LogoButton
+              placement={logoButtonPlacement}
+              className={logoButtonClassName}
+            />
           )}
         </div>
       ))}
