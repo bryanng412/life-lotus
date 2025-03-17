@@ -3,13 +3,21 @@ import { usePlayerBoxContext } from '@/lib/hooks/usePlayerBoxContext'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { CounterName } from '@/lib/store/playersSlice'
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { RefObject, useEffect, useState } from 'react'
 import { useInterval } from 'react-interval-hook'
 import { useLongPress } from 'use-long-press'
 
 const LONGPRESS_INTERVAL = 600
 
-const Counter = ({ name, value }: { name: CounterName; value: number }) => {
+const Counter = ({
+  name,
+  value,
+  containerRef,
+}: {
+  name: CounterName
+  value: number
+  containerRef: RefObject<HTMLDivElement | null>
+}) => {
   const { updatePlayerCounter } = useBoundStore()
   const { id } = usePlayerBoxContext()
   const [incButtonActive, setIncButtonActive] = useState(false)
@@ -59,6 +67,19 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
     cancelOnMovement: false,
     cancelOutsideElement: false,
   })
+
+  useEffect(() => {
+    const handleScroll = () => {
+      incIntervalStop()
+      decIntervalStop()
+    }
+    if (containerRef.current) {
+      containerRef.current.addEventListener('scroll', handleScroll)
+      const refCopy = containerRef.current
+
+      return () => refCopy.removeEventListener('scroll', handleScroll)
+    }
+  }, [incIntervalStop, decIntervalStop, containerRef])
 
   return (
     <div className="relative flex size-full flex-col items-center justify-center not-first:border-l-1 md:justify-evenly">

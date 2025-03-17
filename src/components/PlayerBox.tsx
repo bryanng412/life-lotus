@@ -5,7 +5,7 @@ import { useBoundStore } from '@/lib/store/boundStore'
 import { cn } from '@/lib/utils'
 import { Settings2 } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 const PlayerBox = ({
   id,
@@ -21,6 +21,7 @@ const PlayerBox = ({
     playerBoxClassName,
     'bg-primary-foreground rounded-md border-2'
   )
+  const motionDivRef = useRef<HTMLDivElement>(null)
 
   const hideSettings = useCallback(() => setShowCounters(true), [])
   const openSettings = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,9 +42,15 @@ const PlayerBox = ({
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: 'tween' }}
+              ref={motionDivRef}
             >
               {player.counters.map(({ name, value }, i) => (
-                <Counter key={`${name}-${i}`} name={name} value={value} />
+                <Counter
+                  key={`${name}-${i}`}
+                  name={name}
+                  value={value}
+                  containerRef={motionDivRef}
+                />
               ))}
               <button
                 onClick={openSettings}
