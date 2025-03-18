@@ -10,7 +10,12 @@ import { BoundState, STORE_NAME } from './boundStore'
 
 type PartialBoundState = { state: Partial<BoundState> }
 
-const urlKeys: Array<keyof BoundState> = ['view', 'numPlayers', 'players']
+const urlKeys: Array<keyof BoundState> = [
+  'startingLife',
+  'view',
+  'numPlayers',
+  'players',
+]
 
 const getSearchParams = () => {
   return new URL(location.href).searchParams
@@ -79,9 +84,9 @@ export const persistentStorage: StateStorage = {
   },
 }
 
-const buildURLSuffix = (params: BoundState, version = 0) => {
+const buildURLSuffix = (storeState: BoundState, version = 0) => {
   const searchParams = new URLSearchParams()
-  const state = Object.fromEntries(urlKeys.map(key => [key, params[key]]))
+  const state = Object.fromEntries(urlKeys.map(key => [key, storeState[key]]))
 
   const storeParams = {
     state,
@@ -95,6 +100,6 @@ const buildURLSuffix = (params: BoundState, version = 0) => {
   return searchParams.toString()
 }
 
-export const buildShareableUrl = (params: BoundState, version?: number) => {
-  return `${window.location.origin}?${buildURLSuffix(params, version)}`
+export const buildShareableUrl = (state: BoundState, version?: number) => {
+  return `${window.location.origin}?${buildURLSuffix(state, version)}`
 }
