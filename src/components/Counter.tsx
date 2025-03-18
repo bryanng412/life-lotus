@@ -18,7 +18,7 @@ const Counter = ({
   value: number
   containerRef: RefObject<HTMLDivElement | null>
 }) => {
-  const { updatePlayerCounter } = useBoundStore()
+  const { updatePlayerCounter, numPlayers } = useBoundStore()
   const { id } = usePlayerBoxContext()
   const [incButtonActive, setIncButtonActive] = useState(false)
   const [decButtonActive, setDecButtonActive] = useState(false)
@@ -83,7 +83,9 @@ const Counter = ({
 
   return (
     <div className="relative flex size-full flex-col items-center justify-center not-first:border-l-1 md:justify-evenly">
-      <p className="text-7xl md:text-9xl">{value}</p>
+      <p className={cn('text-7xl md:text-9xl', numPlayers === 2 && 'text-9xl')}>
+        {value}
+      </p>
       <CounterIcon className="mt-4 md:mt-0" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
