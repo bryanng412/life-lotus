@@ -4,6 +4,7 @@ import LifeCounter from '@/components/views/LifeCounter'
 import WakeLock from '@/components/WakeLock'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
+import { useEffect } from 'react'
 
 function App() {
   const { view } = useBoundStore()
@@ -22,6 +23,14 @@ function App() {
     default:
       ViewComponent = GameSetup
   }
+
+  useEffect(() => {
+    const url = new URL(window.location.href)
+    if (url.search) {
+      url.search = ''
+      window.history.replaceState({}, document.title, url.pathname)
+    }
+  }, [])
 
   return (
     <>

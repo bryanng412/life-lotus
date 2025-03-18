@@ -2,8 +2,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
@@ -40,9 +38,6 @@ const ResetGameDialog: FC<{ onClose: () => void; children: ReactNode }> = ({
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className={contentClassName} onClose={onClose}>
-        <DialogHeader>
-          <DialogTitle>Reset Game</DialogTitle>
-        </DialogHeader>
         <div className="mt-4 flex flex-col items-center justify-center space-y-8">
           <div className="flex items-center space-x-2">
             <Switch
