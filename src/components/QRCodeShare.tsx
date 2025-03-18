@@ -5,8 +5,8 @@ import { buildShareableUrl } from '@/lib/store/storage'
 import { cn } from '@/lib/utils'
 import { useCopyToClipboard } from '@uidotdev/usehooks'
 import { Check, Copy } from 'lucide-react'
-import { QRCodeSVG } from 'qrcode.react'
 import { useEffect, useState } from 'react'
+import { QRCode } from 'react-qrcode-logo'
 import { Input } from './ui/input'
 
 const QRCodeShare = ({ onBack }: { onBack: () => void }) => {
@@ -18,6 +18,9 @@ const QRCodeShare = ({ onBack }: { onBack: () => void }) => {
     void copyToClipboard(shareUrl)
     setHasCopiedText(true)
   }
+  const styles = getComputedStyle(document.documentElement)
+  const bgColor = styles.getPropertyValue('--background')
+  const fgColor = styles.getPropertyValue('--foreground')
 
   useEffect(() => {
     if (hasCopiedText) {
@@ -31,18 +34,20 @@ const QRCodeShare = ({ onBack }: { onBack: () => void }) => {
 
   return (
     <>
-      <QRCodeSVG
-        className="m-auto"
+      <QRCode
+        size={275}
+        qrStyle="dots"
+        fgColor={fgColor}
+        bgColor={bgColor}
+        logoImage={logo}
+        logoWidth={74}
+        logoHeight={60}
+        logoPadding={5}
+        logoOpacity={0.9}
+        logoPaddingStyle="circle"
         value={shareUrl}
-        title={'Title for my QR Code'}
-        size={256}
-        imageSettings={{
-          src: logo,
-          height: 60,
-          width: 74,
-          opacity: 1,
-          excavate: false,
-        }}
+        style={{ margin: 'auto' }}
+        quietZone={15}
       />
       <div className="relative">
         <Input className="border-foreground" value={shareUrl} readOnly />
