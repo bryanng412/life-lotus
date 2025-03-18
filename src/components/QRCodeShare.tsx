@@ -40,7 +40,7 @@ const QRCodeShare = ({ onBack }: { onBack: () => void }) => {
           src: logo,
           height: 60,
           width: 74,
-          opacity: 0.8,
+          opacity: 1,
           excavate: false,
         }}
       />
@@ -50,7 +50,7 @@ const QRCodeShare = ({ onBack }: { onBack: () => void }) => {
           onClick={copyUrl}
           className={cn(
             !hasCopiedText && 'cursor-pointer',
-            'bg-muted absolute top-1/2 right-[24px] flex translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-md p-1.5'
+            'bg-muted absolute top-1/2 right-[24px] flex size-fit translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-md px-1.5 py-0.5'
           )}
           disabled={hasCopiedText}
         >

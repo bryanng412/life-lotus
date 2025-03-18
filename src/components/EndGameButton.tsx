@@ -23,7 +23,7 @@ const EndGameButton = () => {
               type: 'tween',
               ease: 'linear',
             }}
-            className="mt-2 flex flex-col items-center justify-center space-y-2 overflow-hidden"
+            className="mt-1 flex flex-col items-center justify-center space-y-2 overflow-hidden"
           >
             <p>Are you sure?</p>
             <div className="flex items-center justify-center space-x-3">
