@@ -71,7 +71,7 @@ const ChoosePlayer = () => {
   }
 
   return (
-    <div className="bg-muted relative h-screen w-screen overflow-hidden">
+    <div className="bg-muted relative h-dvh w-screen overflow-hidden">
       {touches.length === 0 && (
         <>
           <Button

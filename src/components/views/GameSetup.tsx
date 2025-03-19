@@ -32,7 +32,7 @@ const GameSetup = () => {
   }
 
   return (
-    <div className="bg-muted flex h-screen w-screen flex-col items-center gap-18 pt-[5vh] md:gap-21">
+    <div className="bg-muted flex h-dvh w-screen flex-col items-center gap-18 pt-[5vh] md:gap-21">
       <img
         src={logo}
         alt="logo"
