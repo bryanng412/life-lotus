@@ -5,8 +5,13 @@ import { Button } from '@/components/ui/button'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { NumPlayers, StartingLife } from '@/lib/store/gameInfoSlice'
 import { View } from '@/lib/store/viewSlice'
-import { Settings } from 'lucide-react'
-import { useState } from 'react'
+import { Download, Settings } from 'lucide-react'
+import { useEffect, useState } from 'react'
+
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>
+}
 
 const NumPlayersOptions: NumPlayers[] = [6, 5, 4, 3, 2]
 const StartingLifeOptions: StartingLife[] = [40, 30, 20]
@@ -20,11 +25,35 @@ const GameSetup = () => {
     setPlayers,
     setView,
   } = useBoundStore()
-
+  const [installEvent, setInstallEvent] =
+    useState<BeforeInstallPromptEvent | null>(null)
   const numPlayersIndex = NumPlayersOptions.indexOf(numPlayers)
   const lifeIndex = StartingLifeOptions.indexOf(startingLife)
   const [initNumPlayersIndex] = useState(numPlayersIndex)
   const [initLifeIndex] = useState(lifeIndex)
+
+  useEffect(() => {
+    const handleInstall = (e: Event) => {
+      e.preventDefault()
+      setInstallEvent(e as BeforeInstallPromptEvent)
+    }
+
+    window.addEventListener('beforeinstallprompt', handleInstall)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleInstall)
+    }
+  }, [])
+
+  const installAppOnClick = async () => {
+    if (installEvent) {
+      await installEvent.prompt()
+      const choiceResult = await installEvent.userChoice
+      if (choiceResult.outcome === 'accepted') {
+        setInstallEvent(null)
+      }
+    }
+  }
 
   const startGameOnClick = () => {
     setPlayers(numPlayers)
@@ -64,6 +93,16 @@ const GameSetup = () => {
         >
           Start Game
         </Button>
+        {installEvent && (
+          <Button
+            size="xxl"
+            className="bg-muted-foreground text-primary-foreground hover:bg-muted-foreground hover:opacity-90 active:scale-[.98]"
+            onClick={() => void installAppOnClick()}
+          >
+            Install App
+            <Download className="size-7" />
+          </Button>
+        )}
         <OptionsDialog>
           <Button
             size="xl"
