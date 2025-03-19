@@ -2,9 +2,9 @@
   <img src="src/assets/logo.webp" height=192 />
 </div>
 
-# Jeweled Lotus
+# Life Lotus
 
-https://jeweledlot.us
+https://lifelot.us
 
 An app to keep track of player life totals.
 

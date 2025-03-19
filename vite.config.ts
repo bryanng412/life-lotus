@@ -38,8 +38,8 @@ export default defineConfig({
       },
 
       manifest: {
-        name: 'Jeweled Lotus',
-        short_name: 'Jeweled Lotus',
+        name: 'Life Lotus',
+        short_name: 'Life Lotus',
         description: 'Life counter for MTG',
         start_url: '/',
         scope: '/',

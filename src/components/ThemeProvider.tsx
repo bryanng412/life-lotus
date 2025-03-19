@@ -10,7 +10,7 @@ type ThemeProviderProps = {
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
-  storageKey = 'jeweled-lotus-theme',
+  storageKey = 'life-lotus-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(

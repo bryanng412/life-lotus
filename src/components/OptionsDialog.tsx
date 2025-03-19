@@ -54,7 +54,7 @@ const OptionsDialog: FC<{
             <DialogHeader>
               <DialogTitle>Options</DialogTitle>
               <DialogDescription>
-                Thanks for using Jeweled Lotus!
+                Thanks for using Life Lotus!
               </DialogDescription>
             </DialogHeader>
             <div className="flex flex-col items-center justify-center space-y-4">

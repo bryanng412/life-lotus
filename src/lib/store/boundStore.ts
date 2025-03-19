@@ -16,7 +16,7 @@ import { createViewSlice, ViewSlice } from './viewSlice'
 
 export type BoundState = ViewSlice & GameInfoSlice & PlayersSlice & OptionsSlice
 
-export const STORE_NAME = 'jeweled-lotus-store'
+export const STORE_NAME = 'life-lotus-store'
 
 export const useBoundStoreBase = create<BoundState>()(
   devtools(
