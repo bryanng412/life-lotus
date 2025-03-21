@@ -2,6 +2,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
@@ -9,6 +10,8 @@ import { Switch } from '@/components/ui/switch'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { View } from '@/lib/store/viewSlice'
 import { cn } from '@/lib/utils'
+import { DialogTitle } from '@radix-ui/react-dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 import { FC, ReactNode } from 'react'
 import { Button } from './ui/button'
 
@@ -38,6 +41,11 @@ const ResetGameDialog: FC<{ onClose: () => void; children: ReactNode }> = ({
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className={contentClassName} onClose={onClose}>
+        <VisuallyHidden>
+          <DialogHeader>
+            <DialogTitle>Reset Game</DialogTitle>
+          </DialogHeader>
+        </VisuallyHidden>
         <div className="mt-4 flex flex-col items-center justify-center space-y-8">
           <div className="flex items-center space-x-2">
             <Switch
