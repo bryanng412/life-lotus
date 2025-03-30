@@ -28,7 +28,7 @@ const animationVariants: Variants = {
     scale: [1, 1.3, 1, 1.3, 1, 1.3, 1],
     transition: {
       delay: 0.5,
-      duration: 3,
+      duration: 2.75,
       ease: 'easeInOut',
     },
   },
