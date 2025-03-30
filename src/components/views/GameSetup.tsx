@@ -65,7 +65,7 @@ const GameSetup = () => {
       <img
         src={logo}
         alt="logo"
-        className="l-[150px] md:l-[225px] lg:l-[250px] w-[150px] md:w-[225px] lg:w-[250px]"
+        className="h-auto w-[150px] md:w-[225px] lg:w-[250px]"
       />
       <div className="flex w-[100%] items-center justify-center gap-2">
         <div className="flex w-[100%] max-w-[480px] flex-col items-center justify-center gap-18 md:gap-20">
