@@ -64,7 +64,7 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
       <p className={cn('text-7xl md:text-9xl', numPlayers === 2 && 'text-9xl')}>
         {value}
       </p>
-      <CounterIcon className="mt-4 md:mt-0" counterName={name} />
+      <CounterIcon className="mt-4 md:mt-0 md:size-10" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
           {...incrementBind()}
