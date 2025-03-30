@@ -1,5 +1,4 @@
 import CounterIcon from '@/components/CounterIcon'
-import { useLongPress } from '@/lib/hooks/useLongPress'
 import { usePlayerBoxContext } from '@/lib/hooks/usePlayerBoxContext'
 import { useBoundStore } from '@/lib/store/boundStore'
 import { CounterName } from '@/lib/store/playersSlice'
@@ -8,16 +7,8 @@ import { cn } from '@/lib/utils'
 const Counter = ({ name, value }: { name: CounterName; value: number }) => {
   const { updatePlayerCounter, numPlayers } = useBoundStore()
   const { id } = usePlayerBoxContext()
-
-  const incrementProps = useLongPress({
-    onPress: () => updatePlayerCounter(id, name, 1),
-    onLongPress: () => updatePlayerCounter(id, name, 10),
-  })
-
-  const decrementProps = useLongPress({
-    onPress: () => updatePlayerCounter(id, name, -1),
-    onLongPress: () => updatePlayerCounter(id, name, -10),
-  })
+  const increment = () => updatePlayerCounter(id, name, 1)
+  const decrement = () => updatePlayerCounter(id, name, -1)
 
   return (
     <div className="relative flex size-full flex-col items-center justify-center not-first:border-l-1 md:justify-evenly">
@@ -27,18 +18,18 @@ const Counter = ({ name, value }: { name: CounterName; value: number }) => {
       <CounterIcon className="mt-4 md:mt-0" counterName={name} />
       <div className="absolute flex size-full flex-col">
         <button
+          onClick={increment}
           className={cn(
             'bg-primary size-full cursor-pointer opacity-0',
-            incrementProps.isPressed && 'opacity-8'
+            'active:opacity-8'
           )}
-          {...incrementProps}
         />
         <button
+          onClick={decrement}
           className={cn(
             'bg-primary size-full cursor-pointer opacity-0',
-            decrementProps.isPressed && 'opacity-8'
+            'active:opacity-8'
           )}
-          {...decrementProps}
         />
       </div>
     </div>
