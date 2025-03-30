@@ -7,7 +7,7 @@ import { useDrag } from '@use-gesture/react'
 import { useState } from 'react'
 import { useInterval } from 'react-interval-hook'
 
-const LONG_PRESS_DURATION = 550
+const LONG_PRESS_DURATION = 600
 
 const Counter = ({ name, value }: { name: CounterName; value: number }) => {
   const [incButtonActive, setIncButtonActive] = useState(false)
