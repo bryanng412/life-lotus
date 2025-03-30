@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import legacy from '@vitejs/plugin-legacy'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -25,6 +26,11 @@ export default defineConfig({
     },
   },
   plugins: [
+    legacy({
+      targets: [
+        'last 2 versions and not dead, > 0.3%, Firefox ESR, ios_saf >= 14',
+      ],
+    }),
     react(),
     tailwindcss(),
     svgr(),
