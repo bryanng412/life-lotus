@@ -65,7 +65,6 @@ export const persistentStorage: StateStorage = {
           mergeStorage(parsedLocalStorage, parsedSearchParams)
         )
 
-        console.log({ parsedLocalStorage, parsedSearchParams, mergedStorage })
         return JSON.stringify(mergedStorage)
       }
 
